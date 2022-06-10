@@ -13,5 +13,6 @@ namespace Aromat.Quiz.Api.Model
         public string School { get; set; }
         public int SchooldDegree { get; set; }
         public string Description { get; set; }
+        public virtual List<Category> Categories { get; set; }
     }
 }

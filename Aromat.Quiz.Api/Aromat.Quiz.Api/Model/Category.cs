@@ -8,9 +8,8 @@ namespace Aromat.Quiz.Api.Model
     public class Category
     {
         public int Id { get; set; }
-
-        public virtual List<Level> Levels { get; set; }
-        public virtual List<Subject> Subjects { get; set; }
-        public virtual List<Degree> Degrees { get; set; }
+        public int LevelId { get; set; }
+        public int SubjectId { get; set; }
+        public int DegreeId { get; set; }
     }
 }
