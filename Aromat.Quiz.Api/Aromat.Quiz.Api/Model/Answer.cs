@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Aromat.Quiz.Api.Model
 {
-    public class Subject
+    public class Answer
     {
         [Required]
         public int Id { get; set; }
-        public string Name { get; set; }
-
-        public virtual List<SubSubject> SubSubjects { get; set; }
+        public int QuestionId { get; set; }
+        [Required]
+        public bool Correct { get; set; }
+        [Required]
+        public string Content { get; set; }
     }
 }

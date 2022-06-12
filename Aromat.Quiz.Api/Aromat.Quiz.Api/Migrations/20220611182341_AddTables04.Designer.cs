@@ -4,14 +4,16 @@ using Aromat.Quiz.Api.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Aromat.Quiz.Api.Migrations
 {
     [DbContext(typeof(QuizDbContext))]
-    partial class QuizDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220611182341_AddTables04")]
+    partial class AddTables04
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +58,7 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Property<int>("LevelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubSubjectId")
+                    b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -64,8 +66,6 @@ namespace Aromat.Quiz.Api.Migrations
                     b.HasIndex("DegreeId");
 
                     b.HasIndex("LevelId");
-
-                    b.HasIndex("SubSubjectId");
 
                     b.ToTable("Categories");
                 });
@@ -174,8 +174,6 @@ namespace Aromat.Quiz.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
-
                     b.ToTable("SubSubjects");
                 });
 
@@ -189,7 +187,12 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SubjectId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Subjects");
                 });
@@ -216,12 +219,6 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Aromat.Quiz.Api.Model.SubSubject", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("SubSubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.QuestionDetails", b =>
@@ -237,13 +234,11 @@ namespace Aromat.Quiz.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.SubSubject", b =>
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.Subject", b =>
                 {
                     b.HasOne("Aromat.Quiz.Api.Model.Subject", null)
                         .WithMany("SubSubjects")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectId");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Category", b =>
@@ -266,11 +261,6 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Navigation("Answers");
 
                     b.Navigation("QuestionsDetails");
-                });
-
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.SubSubject", b =>
-                {
-                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Subject", b =>

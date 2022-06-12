@@ -9,7 +9,9 @@ namespace Aromat.Quiz.Api.Model
     {
         public int Id { get; set; }
         public int LevelId { get; set; }
-        public int SubjectId { get; set; }
+        public int SubSubjectId { get; set; }
         public int DegreeId { get; set; }
+
+        public virtual List<QuestionDetails> QuestionsDetails { get; set; }
     }
 }

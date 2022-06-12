@@ -14,6 +14,11 @@ namespace Aromat.Quiz.Api.Model
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Degree> Degrees { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<SubSubject> SubSubjects { get; set; }
+
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<QuestionDetails> QuestionsDetails { get; set; }
+        public DbSet<Answer> Answers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
