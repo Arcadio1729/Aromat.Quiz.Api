@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2PMSAYGmjAy3cNE8O/ZI9396XU4rvYnIPCJnmH3/2dcTtq8lgWy9acRsn2hEha03IYM2aQv+XyxOUEWcQPO1OA==",
+  "dgSpecHash": "yv1x84AUJrfELCCJjtU9TjEUr5gUb5WidITyD21YlHSWR8wFzZ2Mq+risYLjSDKRn0J7S7MThF2dwyjWgCGvEQ==",
   "success": true,
-  "projectFilePath": "C:\\ja\\moje\\CsArka\\moje\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj",
+  "projectFilePath": "C:\\ja\\moje\\CsArka\\moje\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ADutka\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\ADutka\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

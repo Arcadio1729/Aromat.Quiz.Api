@@ -6015,11 +6015,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\ja\\moje\\CsArka\\moje\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj",
+      "projectUniqueName": "C:\\ja\\moje\\CsArka\\moje\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj",
       "projectName": "Aromat.Upload.Api",
-      "projectPath": "C:\\ja\\moje\\CsArka\\moje\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj",
+      "projectPath": "C:\\ja\\moje\\CsArka\\moje\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj",
       "packagesPath": "C:\\Users\\ADutka\\.nuget\\packages\\",
-      "outputPath": "C:\\ja\\moje\\CsArka\\moje\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api\\obj\\",
+      "outputPath": "C:\\ja\\moje\\CsArka\\moje\\Aromat.Upload.Api\\Aromat.Upload.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
