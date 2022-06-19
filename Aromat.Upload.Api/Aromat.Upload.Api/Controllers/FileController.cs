@@ -23,9 +23,24 @@ namespace Aromat.Upload.Api.Controllers
             this._mapper = mapper;
         }
 
+        [HttpPost]
+        [Route("upload-file-db")]
+        public ActionResult UploadFiles(IFormFile file)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var fileDto = this._mapper.Map<UploadFileDto>(file);
+
+            this._fileService.UploadFileDb(fileDto);
+            return Ok();
+        }
+
 
         [HttpPost]
-        [Route("upload-db")]
+        [Route("upload-files-db")]
         public ActionResult UploadFiles([FromForm]List<IFormFile> files)
         {
             if (!ModelState.IsValid)

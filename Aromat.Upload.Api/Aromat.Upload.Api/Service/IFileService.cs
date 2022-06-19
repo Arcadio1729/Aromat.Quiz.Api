@@ -11,6 +11,7 @@ namespace Aromat.Upload.Api.Service
     public interface IFileService
     {
         byte[] GetImage();
+        void UploadFileDb(UploadFileDto file);
         void UploadFilesDb(List<UploadFileDto> files);
     }
 }

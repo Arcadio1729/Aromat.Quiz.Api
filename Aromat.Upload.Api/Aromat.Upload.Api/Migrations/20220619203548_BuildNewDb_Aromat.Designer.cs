@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aromat.Upload.Api.Migrations
 {
     [DbContext(typeof(UploadDbContext))]
-    [Migration("20220615100547_DesignDb02")]
-    partial class DesignDb02
+    [Migration("20220619203548_BuildNewDb_Aromat")]
+    partial class BuildNewDb_Aromat
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,23 +21,28 @@ namespace Aromat.Upload.Api.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Aromat.Upload.Api.Model.Image", b =>
+            modelBuilder.Entity("Aromat.Upload.Api.Model.FileData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<byte[]>("ImageData")
+                    b.Property<byte[]>("Data")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<int?>("FileDetailsId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Images");
+                    b.HasIndex("FileDetailsId");
+
+                    b.ToTable("FilesData");
                 });
 
-            modelBuilder.Entity("Aromat.Upload.Api.Model.ImageDetails", b =>
+            modelBuilder.Entity("Aromat.Upload.Api.Model.FileDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,34 +52,24 @@ namespace Aromat.Upload.Api.Migrations
                     b.Property<string>("Extension")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ImageId")
+                    b.Property<int>("FileId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImageTitle")
+                    b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ImageId")
-                        .IsUnique();
-
-                    b.ToTable("ImageDetails");
+                    b.ToTable("FileDetails");
                 });
 
-            modelBuilder.Entity("Aromat.Upload.Api.Model.ImageDetails", b =>
+            modelBuilder.Entity("Aromat.Upload.Api.Model.FileData", b =>
                 {
-                    b.HasOne("Aromat.Upload.Api.Model.Image", "Image")
-                        .WithOne("ImageDetails")
-                        .HasForeignKey("Aromat.Upload.Api.Model.ImageDetails", "ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Aromat.Upload.Api.Model.FileDetails", "FileDetails")
+                        .WithMany()
+                        .HasForeignKey("FileDetailsId");
 
-                    b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("Aromat.Upload.Api.Model.Image", b =>
-                {
-                    b.Navigation("ImageDetails");
+                    b.Navigation("FileDetails");
                 });
 #pragma warning restore 612, 618
         }

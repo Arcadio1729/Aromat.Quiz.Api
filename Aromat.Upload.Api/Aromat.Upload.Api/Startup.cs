@@ -31,6 +31,8 @@ namespace Aromat.Upload.Api
         {
             services.AddControllers();
             services.AddDbContext<UploadDbContext>();
+            services.AddAutoMapper(this.GetType().Assembly);
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<IFileService, FileService>();
         }
 

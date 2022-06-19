@@ -23,6 +23,21 @@ namespace Aromat.Upload.Api.Service
             return this._context.FilesData.FirstOrDefault().Data;
         }
 
+        public void UploadFileDb(UploadFileDto file)
+        {
+            FileData f = new FileData()
+            {
+                Data = file.Data,
+                FileDetails = new FileDetails()
+                {
+                    Extension = file.Extension,
+                    Title = file.Title
+                }
+            };
+            this._context.FilesData.Add(f);
+            this._context.SaveChanges();
+        }
+
         public void UploadFilesDb(List<UploadFileDto> filesDtos)
         {
             foreach(var fd in filesDtos)
