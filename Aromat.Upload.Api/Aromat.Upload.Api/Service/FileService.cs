@@ -1,4 +1,5 @@
-﻿using Aromat.Upload.Api.Model;
+﻿using Aromat.Upload.Api.Exceptions;
+using Aromat.Upload.Api.Model;
 using Aromat.Upload.Api.Model.Dto;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -18,12 +19,32 @@ namespace Aromat.Upload.Api.Service
             this._context = context;
         }
 
-        public byte[] GetImage()
+        public byte[] GetFile(int id)
         {
-            return this._context.FilesData.FirstOrDefault().Data;
-        }
+            var data = this._context.FilesData.FirstOrDefault(x=>x.Id==id).Data;
 
-        public void UploadFileDb(UploadFileDto file)
+            if (data is null)
+                throw new NotFoundException("File not found");
+
+            return data;
+        }
+        public IEnumerable<byte[]> GetFiles(List<int> filesId)
+        {
+            List<byte[]> files = new List<byte[]>();
+
+            foreach(var id in filesId)
+            {
+                var currentFile = this._context.FilesData.FirstOrDefault(x => x.Id == id).Data;
+
+                if (currentFile is null)
+                    throw new NotFoundException($"File with {id} not found");
+
+                files.Add(currentFile);
+            }
+
+            return files;
+        }
+        public void CreateFileDb(UploadFileDto file)
         {
             FileData f = new FileData()
             {
@@ -37,8 +58,7 @@ namespace Aromat.Upload.Api.Service
             this._context.FilesData.Add(f);
             this._context.SaveChanges();
         }
-
-        public void UploadFilesDb(List<UploadFileDto> filesDtos)
+        public void CreateFilesDb(List<UploadFileDto> filesDtos)
         {
             foreach(var fd in filesDtos)
             {

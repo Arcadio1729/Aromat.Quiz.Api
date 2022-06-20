@@ -1,3 +1,4 @@
+using Aromat.Upload.Api.Middleware;
 using Aromat.Upload.Api.Model;
 using Aromat.Upload.Api.Service;
 using Microsoft.AspNetCore.Builder;
@@ -33,7 +34,7 @@ namespace Aromat.Upload.Api
             services.AddDbContext<UploadDbContext>();
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddScoped<IFileService, FileService>();
-            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<ErrorHandlingMiddleware>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +44,7 @@ namespace Aromat.Upload.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();

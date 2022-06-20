@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace Aromat.Upload.Api.Controllers
 {
     [Route("api")]
+    [ApiController]
     public class FileController : ControllerBase
     {
         private readonly IFileService _fileService;
@@ -34,7 +35,7 @@ namespace Aromat.Upload.Api.Controllers
 
             var fileDto = this._mapper.Map<UploadFileDto>(file);
 
-            this._fileService.UploadFileDb(fileDto);
+            this._fileService.CreateFileDb(fileDto);
             return Ok();
         }
 
@@ -43,24 +44,18 @@ namespace Aromat.Upload.Api.Controllers
         [Route("upload-files-db")]
         public ActionResult UploadFiles([FromForm]List<IFormFile> files)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var filesDtos = this._mapper.Map<List<UploadFileDto>>(files);
 
-            this._fileService.UploadFilesDb(filesDtos);
+            this._fileService.CreateFilesDb(filesDtos);
             return Ok();
         }
 
         [HttpGet]
         [Route("download")]
-        public ActionResult GetFile()
+        public ActionResult GetFile([FromBody]int id)
         {
-            byte[] img = this._fileService.GetImage();
+            byte[] img = this._fileService.GetFile(id);
             return File(img, "image/png");
         }
-
     }
 }
