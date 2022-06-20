@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Aromat.Quiz.Api.Model.Dto;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace Aromat.Quiz.Api.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateQuestion([FromBody] CreateQuestionDto dto)
+        public ActionResult CreateQuestion(
+            [FromBody]CreateQuestionDto questionDto,
+            [FromBody]CreateAnswerDto answerDto)
         {
 
         }

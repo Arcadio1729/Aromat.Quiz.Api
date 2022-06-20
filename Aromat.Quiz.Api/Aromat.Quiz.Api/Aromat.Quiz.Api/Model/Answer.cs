@@ -13,7 +13,7 @@ namespace Aromat.Quiz.Api.Model
         public int QuestionId { get; set; }
         [Required]
         public bool Correct { get; set; }
-        [Required]
-        public string Content { get; set; }
+        public string LatexContent { get; set; }
+        public byte[] ImageContent { get; set; }
     }
 }

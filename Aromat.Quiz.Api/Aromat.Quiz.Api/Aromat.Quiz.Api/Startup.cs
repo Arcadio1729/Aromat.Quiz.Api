@@ -28,6 +28,7 @@ namespace Aromat.Quiz.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddAutoMapper(this.GetType().Assembly);
             services.AddDbContext<QuizDbContext>();
         }
 

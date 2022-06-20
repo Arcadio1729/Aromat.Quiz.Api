@@ -7,5 +7,11 @@ namespace Aromat.Quiz.Api.Model.Dto
 {
     public class CreateQuestionDto
     {
+        public string LatexContent { get; set; }
+        public byte[] ImageContent { get; set; }
+        public string Subject { get; set; }
+        public string Degree { get; set; }
+        public int Level { get; set; }
+        public bool TestQuestion { get; set; }
     }
 }
