@@ -20,7 +20,7 @@ namespace Aromat.Quiz.Api.Controllers
             [FromBody]CreateQuestionDto questionDto,
             [FromBody]CreateAnswerDto answerDto)
         {
-
+            return Ok();
         }
     }
 

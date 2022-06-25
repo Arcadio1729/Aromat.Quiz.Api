@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Aromat.Quiz.Api.Model.Dto;
+using Aromat.Quiz.Api.Model.View;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,7 @@ namespace Aromat.Quiz.Api.Model
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionDetails> QuestionsDetails { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<CategoryDetailsView> CategoryDetailsView { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
