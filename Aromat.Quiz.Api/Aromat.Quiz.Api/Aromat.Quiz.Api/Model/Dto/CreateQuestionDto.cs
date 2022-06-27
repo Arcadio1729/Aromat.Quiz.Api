@@ -11,7 +11,7 @@ namespace Aromat.Quiz.Api.Model.Dto
         public byte[] ImageContent { get; set; }
         public string Subject { get; set; }
         public string Degree { get; set; }
-        public int Level { get; set; }
+        public string Level { get; set; }
         public bool TestQuestion { get; set; }
     }
 }

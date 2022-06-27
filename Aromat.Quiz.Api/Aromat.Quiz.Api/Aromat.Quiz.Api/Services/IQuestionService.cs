@@ -1,4 +1,5 @@
 ﻿using Aromat.Quiz.Api.Model;
+using Aromat.Quiz.Api.Model.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace Aromat.Quiz.Api.Services
 {
     public interface IQuestionService
     {
-        void CreateQuestion(Question question);
+        void CreateQuestion(CreateQuestionDto question);
     }
 }

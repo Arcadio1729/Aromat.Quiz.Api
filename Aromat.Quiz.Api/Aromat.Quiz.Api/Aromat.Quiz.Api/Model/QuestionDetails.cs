@@ -11,7 +11,7 @@ namespace Aromat.Quiz.Api.Model
         [Required]
         public int Id { get; set; }
         public int QuestionId { get; set; }
-        public int SubSubjectId { get; set; }
-        public int UniqueId { get; set; }
+        public string UniqueId { get; set; }
+        public int CategoryId { get; set; }
     }
 }
