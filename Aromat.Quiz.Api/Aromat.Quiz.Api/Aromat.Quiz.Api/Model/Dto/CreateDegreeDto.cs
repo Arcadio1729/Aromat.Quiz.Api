@@ -7,6 +7,7 @@ namespace Aromat.Quiz.Api.Model.Dto
 {
     public class CreateDegreeDto
     {
+        public string School { get; set; }
         public string SchoolDegree { get; set; }
         public string Description { get; set; }
     }

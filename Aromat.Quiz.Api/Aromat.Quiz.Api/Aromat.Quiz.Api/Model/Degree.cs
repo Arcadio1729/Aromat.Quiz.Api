@@ -10,8 +10,9 @@ namespace Aromat.Quiz.Api.Model
     {
         [Required]
         public int Id { get; set; }
+        [RegularExpression("[^Szkoła Podstawowa$|^Gimnazjum$|^Liceum$|^Studia$]")]
         public string School { get; set; }
-        public int SchooldDegree { get; set; }
+        public string SchoolDegree { get; set; }
         public string Description { get; set; }
         public virtual List<Category> Categories { get; set; }
     }

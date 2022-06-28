@@ -17,7 +17,15 @@ namespace Aromat.Quiz.Api.Services
         }
         public void AddDegree(CreateDegreeDto degreeDto)
         {
-            this._context
+            var degree = new Degree
+            {
+                Description = degreeDto.Description,
+                SchoolDegree = degreeDto.SchoolDegree,
+                School = degreeDto.School
+            };
+
+            this._context.Degrees.Add(degree);
+            this._context.SaveChanges();
         }
 
         public void AddLevel(CreateLevelDto levelDto)
