@@ -1,4 +1,5 @@
-﻿using Aromat.Quiz.Api.Model;
+﻿using Aromat.Quiz.Api.Exceptions;
+using Aromat.Quiz.Api.Model;
 using Aromat.Quiz.Api.Model.Dto;
 using System;
 using System.Collections.Generic;
@@ -30,12 +31,32 @@ namespace Aromat.Quiz.Api.Services
 
         public void AddLevel(CreateLevelDto levelDto)
         {
-            throw new NotImplementedException();
+            var level = new Level
+            {
+                Name = levelDto.Name
+            };
+
+            this._context.Add(level);
+            this._context.SaveChanges();
         }
 
         public void AddSubject(CreateSubjectDto subjectDto)
         {
-            throw new NotImplementedException();
+            var baseSubject = this._context
+                .Subjects
+                .FirstOrDefault(s => s.Name == subjectDto.BaseSubject);
+
+            if(baseSubject is null)
+                throw new NotFoundException($"Base Subject {subjectDto.BaseSubject} does not exist.");
+
+            this._context.SubSubjects.Add(
+                new SubSubject
+                {
+                    SubjectId = baseSubject.Id,
+                    Name = subjectDto.SubSubject
+                });
+
+            this._context.SaveChanges();
         }
     }
 }

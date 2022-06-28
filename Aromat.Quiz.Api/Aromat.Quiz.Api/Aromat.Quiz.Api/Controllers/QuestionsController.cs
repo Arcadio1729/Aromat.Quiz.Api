@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace Aromat.Quiz.Api.Controllers
 {
+    [ApiController]
+    [Route("api/question")]
     public class QuestionsController : Controller
     {
         public IActionResult Index()

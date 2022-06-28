@@ -1,3 +1,4 @@
+using Aromat.Quiz.Api.Middleware;
 using Aromat.Quiz.Api.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,9 +41,11 @@ namespace Aromat.Quiz.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
