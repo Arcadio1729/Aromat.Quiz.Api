@@ -31,5 +31,31 @@ namespace Aromat.Quiz.Api.Controllers
             this._service.AddLevel(level);
             return Ok();
         }
+
+        [HttpPost]
+        [Route("add-degree")]
+        public ActionResult CreateDegree([FromBody]CreateDegreeDto degree)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            this._service.AddDegree(degree);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("add-subject")]
+        public ActionResult CreateSubject([FromBody]CreateSubjectDto subject)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            this._service.AddSubject(subject);
+            return Ok();
+        }
     }
 }
