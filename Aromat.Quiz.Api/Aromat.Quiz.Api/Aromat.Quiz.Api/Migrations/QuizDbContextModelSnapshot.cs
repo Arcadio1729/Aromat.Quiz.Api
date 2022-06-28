@@ -194,27 +194,6 @@ namespace Aromat.Quiz.Api.Migrations
                     b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.View.CategoryDetailsView", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Degree")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Level")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Subsubject")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CategoryId");
-
-                    b.ToTable("Categories_Details_View");
-                });
-
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Answer", b =>
                 {
                     b.HasOne("Aromat.Quiz.Api.Model.Question", null)

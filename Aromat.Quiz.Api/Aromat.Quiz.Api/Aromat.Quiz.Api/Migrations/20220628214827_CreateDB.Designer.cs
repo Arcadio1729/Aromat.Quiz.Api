@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Aromat.Quiz.Api.Migrations
 {
     [DbContext(typeof(QuizDbContext))]
-    [Migration("20220625103625_empty5")]
-    partial class empty5
+    [Migration("20220628214827_CreateDB")]
+    partial class CreateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,8 +87,8 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Property<string>("School")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SchooldDegree")
-                        .HasColumnType("int");
+                    b.Property<string>("SchoolDegree")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -121,8 +121,8 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageContent")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("ImageContent")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("LatexContent")
                         .HasColumnType("nvarchar(max)");
@@ -142,23 +142,21 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubSubjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UniqueId")
-                        .HasColumnType("int");
+                    b.Property<string>("UniqueId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("QuestionId")
+                        .IsUnique();
 
                     b.ToTable("QuestionsDetails");
                 });
@@ -232,11 +230,13 @@ namespace Aromat.Quiz.Api.Migrations
                 {
                     b.HasOne("Aromat.Quiz.Api.Model.Category", null)
                         .WithMany("QuestionsDetails")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Aromat.Quiz.Api.Model.Question", null)
-                        .WithMany("QuestionsDetails")
-                        .HasForeignKey("QuestionId")
+                        .WithOne("QuestionsDetails")
+                        .HasForeignKey("Aromat.Quiz.Api.Model.QuestionDetails", "QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

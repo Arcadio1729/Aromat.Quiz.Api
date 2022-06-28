@@ -15,25 +15,29 @@ namespace Aromat.Quiz.Api.Services
         {
             this._context = context;
         }
+
+        
         public void CreateQuestion(CreateQuestionDto question)
         {
-            var questionDetails = this._context.CategoryDetailsView
-                .Where(c =>
-                    c.Degree == question.Degree && c.Level == question.Level && c.Subsubject == question.Subject)
-                .FirstOrDefault();
+            #region createQuestion
+            //    var questionDetails = this._context.CategoryDetailsView
+            //        .Where(c =>
+            //            c.Degree == question.Degree && c.Level == question.Level && c.Subsubject == question.Subject)
+            //        .FirstOrDefault();
 
-            this._context.Questions.Add(new Question
-            {
-                QuestionsDetails = new QuestionDetails
-                {
-                    CategoryId=questionDetails.CategoryId,
-                    UniqueId=System.Guid.NewGuid().ToString(),
-                },
+            //    this._context.Questions.Add(new Question
+            //    {
+            //        QuestionsDetails = new QuestionDetails
+            //        {
+            //            CategoryId=questionDetails.CategoryId,
+            //            UniqueId=System.Guid.NewGuid().ToString(),
+            //        },
 
-                LatexContent = question.LatexContent,
-                ImageContent = question.ImageContent,
-                QuizQuestion = question.TestQuestion
-            });
+            //        LatexContent = question.LatexContent,
+            //        ImageContent = question.ImageContent,
+            //        QuizQuestion = question.TestQuestion
+            //    });
+            #endregion
         }
     }
 }

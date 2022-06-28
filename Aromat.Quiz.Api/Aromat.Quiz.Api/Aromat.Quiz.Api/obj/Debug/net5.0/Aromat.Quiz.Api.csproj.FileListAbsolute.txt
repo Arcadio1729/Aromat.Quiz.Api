@@ -134,3 +134,6 @@ C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\ob
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\NLog.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\NLog.Extensions.Logging.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\NLog.Web.AspNetCore.dll
+C:\Users\arcad\Desktop\ja\CS\dotnetcore\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\NLog.dll
+C:\Users\arcad\Desktop\ja\CS\dotnetcore\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\NLog.Extensions.Logging.dll
+C:\Users\arcad\Desktop\ja\CS\dotnetcore\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\NLog.Web.AspNetCore.dll

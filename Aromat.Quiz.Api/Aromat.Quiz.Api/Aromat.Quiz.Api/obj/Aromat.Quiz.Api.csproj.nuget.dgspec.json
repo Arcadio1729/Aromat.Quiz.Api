@@ -1,24 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api.csproj": {}
+    "C:\\Users\\arcad\\Desktop\\ja\\CS\\dotnetcore\\Aromat\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api.csproj": {}
   },
   "projects": {
-    "C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api.csproj": {
+    "C:\\Users\\arcad\\Desktop\\ja\\CS\\dotnetcore\\Aromat\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api.csproj",
+        "projectUniqueName": "C:\\Users\\arcad\\Desktop\\ja\\CS\\dotnetcore\\Aromat\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api.csproj",
         "projectName": "Aromat.Quiz.Api",
-        "projectPath": "C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api.csproj",
-        "packagesPath": "C:\\Users\\ADutka\\.nuget\\packages\\",
-        "outputPath": "C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\obj\\",
+        "projectPath": "C:\\Users\\arcad\\Desktop\\ja\\CS\\dotnetcore\\Aromat\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api.csproj",
+        "packagesPath": "C:\\Users\\arcad\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\arcad\\Desktop\\ja\\CS\\dotnetcore\\Aromat\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\ADutka\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\arcad\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
@@ -27,6 +28,7 @@
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
