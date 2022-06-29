@@ -8,6 +8,6 @@ namespace Aromat.Quiz.Api.Model.Dto
     public class CreateLevelDto
     {
         public string Name { get; set; }
-
+        public string Description { get; set; }
     }
 }

@@ -33,6 +33,7 @@ namespace Aromat.Quiz.Api.Services
         {
             var level = new Level
             {
+                Description = levelDto.Description,
                 Name = levelDto.Name
             };
 
@@ -56,6 +57,26 @@ namespace Aromat.Quiz.Api.Services
                     Name = subjectDto.SubSubject
                 });
 
+            this._context.SaveChanges();
+        }
+
+        public void AddCategory()
+        {
+            var degrees = this._context.Degrees;
+            var levels = this._context.Levels;
+            var subjects = this._context.Subjects;
+
+            var categoryProduct = from d in degrees
+                                  from l in levels
+                                  from s in subjects
+                                  select new Category
+                                  {
+                                      DegreeId = d.Id,
+                                      LevelId = l.Id,
+                                      SubSubjectId = s.Id
+                                  };
+
+            this._context.Categories.AddRange(categoryProduct);
             this._context.SaveChanges();
         }
     }

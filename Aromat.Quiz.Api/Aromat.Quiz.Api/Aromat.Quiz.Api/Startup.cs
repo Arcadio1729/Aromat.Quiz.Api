@@ -1,5 +1,6 @@
 using Aromat.Quiz.Api.Middleware;
 using Aromat.Quiz.Api.Model;
+using Aromat.Quiz.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,11 @@ namespace Aromat.Quiz.Api
             services.AddControllers();
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddDbContext<QuizDbContext>();
+
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IQuestionService, QuestionService>();
+
+            services.AddScoped<ErrorHandlingMiddleware>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

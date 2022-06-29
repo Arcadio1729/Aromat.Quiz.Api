@@ -12,11 +12,24 @@ namespace Aromat.Quiz.Api.Controllers
     [Route("api/category")]
     public class CategoriesController : Controller
     {
-        private readonly CategoryService _service;
+        private readonly ICategoryService _service;
 
-        public CategoriesController(CategoryService service)
+        public CategoriesController(ICategoryService service)
         {
             this._service = service;
+        }
+
+        [HttpPost]
+        [Route("add-categories")]
+        public ActionResult CreateCategories()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            this._service.AddCategory();
+            return Ok();
         }
 
         [HttpPost]
@@ -36,7 +49,7 @@ namespace Aromat.Quiz.Api.Controllers
         [Route("add-degree")]
         public ActionResult CreateDegree([FromBody]CreateDegreeDto degree)
         {
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }

@@ -1,4 +1,5 @@
 ﻿using Aromat.Quiz.Api.Model.Dto;
+using Aromat.Quiz.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,18 +12,27 @@ namespace Aromat.Quiz.Api.Controllers
     [Route("api/question")]
     public class QuestionsController : Controller
     {
+        private readonly IQuestionService _service;
+
+        public QuestionsController(IQuestionService service)
+        {
+            this._service = service;
+        }
+
+        [Route("add-question")]
+        public ActionResult CreateQuestion([FromBody]CreateQuestionDto questionDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            this._service.CreateQuestion(questionDto);
+            return Ok();
+        }
         public IActionResult Index()
         {
             return View();
-        }
-
-
-        [HttpPost]
-        public ActionResult CreateQuestion(
-            [FromBody]CreateQuestionDto questionDto,
-            [FromBody]CreateAnswerDto answerDto)
-        {
-            return Ok();
         }
     }
 

@@ -11,5 +11,6 @@ namespace Aromat.Quiz.Api.Services
         void AddSubject(CreateSubjectDto subjectDto);
         void AddLevel(CreateLevelDto levelDto);
         void AddDegree(CreateDegreeDto degreeDto);
+        void AddCategory();
     }
 }

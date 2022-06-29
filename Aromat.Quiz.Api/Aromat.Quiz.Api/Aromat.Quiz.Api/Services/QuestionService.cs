@@ -1,4 +1,5 @@
-﻿using Aromat.Quiz.Api.Model;
+﻿using Aromat.Quiz.Api.Exceptions;
+using Aromat.Quiz.Api.Model;
 using Aromat.Quiz.Api.Model.Dto;
 using System;
 using System.Collections.Generic;
@@ -20,23 +21,26 @@ namespace Aromat.Quiz.Api.Services
         public void CreateQuestion(CreateQuestionDto question)
         {
             #region createQuestion
-            //    var questionDetails = this._context.CategoryDetailsView
-            //        .Where(c =>
-            //            c.Degree == question.Degree && c.Level == question.Level && c.Subsubject == question.Subject)
-            //        .FirstOrDefault();
+            var questionDetails = this._context.CategoryDetailsView
+                .Where(c =>
+                    c.Degree == question.Degree && c.Level == question.Level && c.Subsubject == question.Subject)
+                .FirstOrDefault();
 
-            //    this._context.Questions.Add(new Question
-            //    {
-            //        QuestionsDetails = new QuestionDetails
-            //        {
-            //            CategoryId=questionDetails.CategoryId,
-            //            UniqueId=System.Guid.NewGuid().ToString(),
-            //        },
+            if (questionDetails is null)
+                throw new NotFoundException($"Category not found.");
 
-            //        LatexContent = question.LatexContent,
-            //        ImageContent = question.ImageContent,
-            //        QuizQuestion = question.TestQuestion
-            //    });
+            this._context.Questions.Add(new Question
+            {
+                QuestionsDetails = new QuestionDetails
+                {
+                    CategoryId = questionDetails.CategoryId,
+                    UniqueId = System.Guid.NewGuid().ToString(),
+                },
+
+                LatexContent = question.LatexContent,
+                ImageContent = question.ImageContent,
+                QuizQuestion = question.TestQuestion
+            });
             #endregion
         }
     }
