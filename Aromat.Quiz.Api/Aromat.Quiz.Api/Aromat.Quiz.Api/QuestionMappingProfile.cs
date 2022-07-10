@@ -23,7 +23,13 @@ namespace Aromat.Quiz.Api
                 {
 
                 }));
+        }
 
+        public QuestionMappingProfile()
+        {
+            CreateMap<CourseDetailsDto, CourseDetails>()
+                .ForMember(c => c.Id, dto => dto.MapFrom(x => x.Id))
+                .ForMember(c => c.Name, dto => dto.MapFrom(x => x.Name));
         }
     }
 }
