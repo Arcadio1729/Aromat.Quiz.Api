@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\Aromat.Quiz.Api",
-    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
-    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
-    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Model"
+    ""
   ],
-  "SelectedNode": "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Model\\QuestionDetails.cs",
+  "SelectedNode": "\\Aromat.Quiz.Api.sln",
   "PreviewInSolutionExplorer": false
 }

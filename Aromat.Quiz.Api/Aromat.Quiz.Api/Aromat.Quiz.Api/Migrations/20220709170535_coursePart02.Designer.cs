@@ -4,14 +4,16 @@ using Aromat.Quiz.Api.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Aromat.Quiz.Api.Migrations
 {
     [DbContext(typeof(QuizDbContext))]
-    partial class QuizDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220709170535_coursePart02")]
+    partial class coursePart02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,62 +72,6 @@ namespace Aromat.Quiz.Api.Migrations
                     b.HasIndex("SubSubjectId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.CourseDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CourseDetails");
-                });
-
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.CoursesQuestionsSet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CourseDetailsId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuestionSetId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseDetailsId");
-
-                    b.HasIndex("QuestionSetId");
-
-                    b.ToTable("CoursesQuestionsSets");
-                });
-
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.CoursesStudents", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CourseDetailsId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StudentsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseDetailsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("CoursesStudents");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Degree", b =>
@@ -218,18 +164,6 @@ namespace Aromat.Quiz.Api.Migrations
                     b.ToTable("QuestionsDetails");
                 });
 
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.QuestionSet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("QuestionSets");
-                });
-
             modelBuilder.Entity("Aromat.Quiz.Api.Model.QuestionSetMapping", b =>
                 {
                     b.Property<int>("Id")
@@ -240,31 +174,11 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Property<int?>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QuestionSetId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("QuestionSetId");
-
                     b.ToTable("QuestionSetMapping");
-                });
-
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.Students", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.SubSubject", b =>
@@ -353,28 +267,6 @@ namespace Aromat.Quiz.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.CoursesQuestionsSet", b =>
-                {
-                    b.HasOne("Aromat.Quiz.Api.Model.CourseDetails", null)
-                        .WithMany("CourseQuestionSets")
-                        .HasForeignKey("CourseDetailsId");
-
-                    b.HasOne("Aromat.Quiz.Api.Model.QuestionSet", null)
-                        .WithMany("CourseQuestionSets")
-                        .HasForeignKey("QuestionSetId");
-                });
-
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.CoursesStudents", b =>
-                {
-                    b.HasOne("Aromat.Quiz.Api.Model.CourseDetails", null)
-                        .WithMany("CourseStudents")
-                        .HasForeignKey("CourseDetailsId");
-
-                    b.HasOne("Aromat.Quiz.Api.Model.Students", null)
-                        .WithMany("CourseStudents")
-                        .HasForeignKey("StudentsId");
-                });
-
             modelBuilder.Entity("Aromat.Quiz.Api.Model.QuestionDetails", b =>
                 {
                     b.HasOne("Aromat.Quiz.Api.Model.Category", null)
@@ -395,10 +287,6 @@ namespace Aromat.Quiz.Api.Migrations
                     b.HasOne("Aromat.Quiz.Api.Model.Question", null)
                         .WithMany("QuestionSetMapping")
                         .HasForeignKey("QuestionId");
-
-                    b.HasOne("Aromat.Quiz.Api.Model.QuestionSet", null)
-                        .WithMany("QuestionSetMapping")
-                        .HasForeignKey("QuestionSetId");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.SubSubject", b =>
@@ -413,13 +301,6 @@ namespace Aromat.Quiz.Api.Migrations
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Category", b =>
                 {
                     b.Navigation("QuestionsDetails");
-                });
-
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.CourseDetails", b =>
-                {
-                    b.Navigation("CourseQuestionSets");
-
-                    b.Navigation("CourseStudents");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Degree", b =>
@@ -439,18 +320,6 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Navigation("QuestionsDetails");
 
                     b.Navigation("QuestionSetMapping");
-                });
-
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.QuestionSet", b =>
-                {
-                    b.Navigation("CourseQuestionSets");
-
-                    b.Navigation("QuestionSetMapping");
-                });
-
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.Students", b =>
-                {
-                    b.Navigation("CourseStudents");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.SubSubject", b =>

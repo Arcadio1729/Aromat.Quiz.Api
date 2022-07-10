@@ -16,5 +16,6 @@ namespace Aromat.Quiz.Api.Model
         public bool QuizQuestion { get; set; }
         public virtual QuestionDetails QuestionsDetails { get; set; }
         public virtual List<Answer> Answers { get; set; }
+        public virtual List<QuestionSetMapping> QuestionSetMapping { get; set; }
     }
 }
