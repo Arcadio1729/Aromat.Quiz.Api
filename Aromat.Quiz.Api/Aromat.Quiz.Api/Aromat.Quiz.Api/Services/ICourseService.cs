@@ -10,7 +10,7 @@ namespace Aromat.Quiz.Api.Services
     public interface ICourseService
     {
         void AddCourse(CourseDetailsDto courseDto);
-        void CreateQuestionSet(List<Question> questions);
-        void AddQuestion(int setId, int questionId);
+        void CreateQuestionSet(List<QuestionDto> questions);
+        void AddQuestionsToSet(int setId, List<QuestionDto> questions);
     }
 }

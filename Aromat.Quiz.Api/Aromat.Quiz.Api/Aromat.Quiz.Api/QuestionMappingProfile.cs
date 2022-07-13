@@ -17,7 +17,7 @@ namespace Aromat.Quiz.Api
             this._context = context;
 
             CreateMap<(CreateQuestionDto, CreateAnswerDto), Question>()
-                .ForMember(q => q.ImageContent, dto => dto.MapFrom(x => x.Item1.ImageContent))
+                .ForMember(q => q.FileData.Data, dto => dto.MapFrom(x => x.Item1.QuestionImageId))
                 .ForMember(q => q.LatexContent, dto => dto.MapFrom(x => x.Item1.LatexContent))
                 .ForMember(q => q.QuestionsDetails, dto => dto.MapFrom(x => new
                 {

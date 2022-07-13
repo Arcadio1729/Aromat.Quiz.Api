@@ -35,6 +35,7 @@ namespace Aromat.Quiz.Api
 
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<ICourseService, CourseService>();
 
             services.AddScoped<ErrorHandlingMiddleware>();
         }

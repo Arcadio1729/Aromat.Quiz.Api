@@ -12,7 +12,7 @@ namespace Aromat.Upload.Api.Model
 
         //private readonly string _connectionString = "Server=Localhost;User=LAPTOP-FAABQ3F4\\arcad;Database=AromatDb;Trusted_Connection=True;";
 
-        public DbSet<FileData> FilesData { get; set; }
+        public DbSet<FileData> FileData { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

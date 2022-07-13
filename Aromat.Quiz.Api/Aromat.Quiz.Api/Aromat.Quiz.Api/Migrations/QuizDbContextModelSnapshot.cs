@@ -79,6 +79,9 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("CourseDetails");
@@ -149,6 +152,48 @@ namespace Aromat.Quiz.Api.Migrations
                     b.ToTable("Degrees");
                 });
 
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.FileData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<int?>("FileDetailsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileDetailsId");
+
+                    b.ToTable("FileData");
+                });
+
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.FileDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Extension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FileId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileDetails");
+                });
+
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Level", b =>
                 {
                     b.Property<int>("Id")
@@ -178,8 +223,8 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("ImageContent")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<int>("FileDataId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LatexContent")
                         .HasColumnType("nvarchar(max)");
@@ -188,6 +233,8 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FileDataId");
 
                     b.ToTable("Questions");
                 });
@@ -225,6 +272,9 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("QuestionSets");
@@ -237,10 +287,10 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("QuestionId")
+                    b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QuestionSetId")
+                    b.Property<int>("QuestionSetId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -302,12 +352,10 @@ namespace Aromat.Quiz.Api.Migrations
                     b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.View.CategoryDetailsView", b =>
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.View.CategoryDetails", b =>
                 {
                     b.Property<int>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Degree")
                         .HasColumnType("nvarchar(max)");
@@ -315,12 +363,13 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Property<string>("Level")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Subsubject")
+                    b.Property<string>("School")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CategoryId");
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Categories_Details_View");
+                    b.ToView("CategoryDetailsView");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Answer", b =>
@@ -375,6 +424,26 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasForeignKey("StudentsId");
                 });
 
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.FileData", b =>
+                {
+                    b.HasOne("Aromat.Quiz.Api.Model.FileDetails", "FileDetails")
+                        .WithMany()
+                        .HasForeignKey("FileDetailsId");
+
+                    b.Navigation("FileDetails");
+                });
+
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.Question", b =>
+                {
+                    b.HasOne("Aromat.Quiz.Api.Model.FileData", "FileData")
+                        .WithMany()
+                        .HasForeignKey("FileDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FileData");
+                });
+
             modelBuilder.Entity("Aromat.Quiz.Api.Model.QuestionDetails", b =>
                 {
                     b.HasOne("Aromat.Quiz.Api.Model.Category", null)
@@ -394,11 +463,15 @@ namespace Aromat.Quiz.Api.Migrations
                 {
                     b.HasOne("Aromat.Quiz.Api.Model.Question", null)
                         .WithMany("QuestionSetMapping")
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Aromat.Quiz.Api.Model.QuestionSet", null)
                         .WithMany("QuestionSetMapping")
-                        .HasForeignKey("QuestionSetId");
+                        .HasForeignKey("QuestionSetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.SubSubject", b =>

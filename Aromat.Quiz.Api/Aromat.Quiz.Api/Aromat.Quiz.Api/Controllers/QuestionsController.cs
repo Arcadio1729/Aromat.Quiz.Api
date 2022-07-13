@@ -20,7 +20,7 @@ namespace Aromat.Quiz.Api.Controllers
         }
 
         [Route("add-question")]
-        public ActionResult CreateQuestion([FromBody]CreateQuestionDto questionDto)
+        public ActionResult CreateQuestion([FromBody] CreateQuestionDto questionDto)
         {
             if (!ModelState.IsValid)
             {
@@ -30,11 +30,11 @@ namespace Aromat.Quiz.Api.Controllers
             this._service.CreateQuestion(questionDto);
             return Ok();
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+
+
+
     }
-
-
 }
+
+
+

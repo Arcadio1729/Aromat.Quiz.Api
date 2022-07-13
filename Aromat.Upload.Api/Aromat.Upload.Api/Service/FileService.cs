@@ -21,7 +21,7 @@ namespace Aromat.Upload.Api.Service
 
         public byte[] GetFile(int id)
         {
-            var data = this._context.FilesData.FirstOrDefault(x=>x.Id==id).Data;
+            var data = this._context.FileData.FirstOrDefault(x=>x.Id==id).Data;
 
             if (data is null)
                 throw new NotFoundException("File not found");
@@ -34,7 +34,7 @@ namespace Aromat.Upload.Api.Service
 
             foreach(var id in filesId)
             {
-                var currentFile = this._context.FilesData.FirstOrDefault(x => x.Id == id).Data;
+                var currentFile = this._context.FileData.FirstOrDefault(x => x.Id == id).Data;
 
                 if (currentFile is null)
                     throw new NotFoundException($"File with {id} not found");
@@ -55,7 +55,7 @@ namespace Aromat.Upload.Api.Service
                     Title = file.Title
                 }
             };
-            this._context.FilesData.Add(f);
+            this._context.FileData.Add(f);
             this._context.SaveChanges();
         }
         public void CreateFilesDb(List<UploadFileDto> filesDtos)
@@ -71,7 +71,7 @@ namespace Aromat.Upload.Api.Service
                         Title = fd.Title
                     }
                 };
-                this._context.FilesData.Add(f);
+                this._context.FileData.Add(f);
                 this._context.SaveChanges();
             }
         }

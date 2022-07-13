@@ -27,57 +27,49 @@ namespace Aromat.Quiz.Api.Services
             this._context.SaveChanges();
         }
 
-        public void AddQuestion(int setId, int questionId)
+        public void AddQuestionsToSet(int setId, List<QuestionDto> questions)
         {
-            var set = this._context.QuestionSets.FirstOrDefault(q => q.Id == setId);
-            var question = this._context.Questions.FirstOrDefault(q => q.Id == questionId);
-
-            if (set is null)
+            foreach (var q in questions)
             {
-                throw new NotFoundException($"Set with id {setId} not found.");
+                this._context.QuestionSetMapping.Add(
+                    new QuestionSetMapping
+                    {
+                        QuestionId = q.QuestionId,
+                        QuestionSetId = setId
+                    });
             }
-
-            if (question is null)
-            {
-                throw new NotFoundException($"Question with id {questionId} not found.");
-            }
-
-            QuestionSetMapping qs = new QuestionSetMapping
-            {
-                QuestionId = questionId,
-                QuestionSetId = setId
-            };
-
-            this._context.Add(qs);
             this._context.SaveChanges();
         }
 
-        public void CreateQuestionSet(List<Question> questions)
+        public void CreateQuestionSet(List<QuestionDto> questions)
         {
-            if(questions is null)
-            {
-                throw new NotFoundException($"No questions were selected.");
-            }
+            var setId = this.CreateSet("new set");
+            var currentSet = this._context.QuestionSets.FirstOrDefault(q => q.Id == setId);
 
-            var tempId = this._context.QuestionSets.LastOrDefault().Id;
-            var setId = tempId == 0 ? 1 : tempId;
-
-            this._context.QuestionSets.Add(new QuestionSet
-            {
-                Id = setId
-            });
-
- 
             foreach(var q in questions)
             {
-                this._context.QuestionSetMapping.Add(new QuestionSetMapping
-                {
-                    QuestionSetId = setId,
-                    QuestionId = q.Id
-                });
+                this._context.QuestionSetMapping.Add(
+                    new QuestionSetMapping
+                        {
+                            QuestionId = q.QuestionId,
+                            QuestionSetId = setId
+                        });
             }
 
             this._context.SaveChanges();
+        }
+
+        private int CreateSet(string name)
+        {
+            QuestionSet qs = new QuestionSet
+            {
+                Name = name
+            };
+
+            this._context.QuestionSets.Add(qs);
+            this._context.SaveChanges();
+
+            return qs.Id;
         }
     }
 }

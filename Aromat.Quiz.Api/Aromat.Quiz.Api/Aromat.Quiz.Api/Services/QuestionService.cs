@@ -21,9 +21,12 @@ namespace Aromat.Quiz.Api.Services
         public void CreateQuestion(CreateQuestionDto question)
         {
             #region createQuestion
-            var questionDetails = this._context.CategoryDetailsView
+            var questionDetails = this._context.CategoryDetails
                 .Where(c =>
-                    c.Degree == question.Degree && c.Level == question.Level && c.Subsubject == question.Subject)
+                    c.Degree == question.Degree && 
+                    c.School == question.School &&
+                    c.Level == question.Level && 
+                    c.Subject == question.Subject)
                 .FirstOrDefault();
 
             if (questionDetails is null)
@@ -38,10 +41,12 @@ namespace Aromat.Quiz.Api.Services
                 },
 
                 LatexContent = question.LatexContent,
-                ImageContent = question.ImageContent,
+                FileDataId = question.QuestionImageId,
                 QuizQuestion = question.TestQuestion
             });
+            this._context.SaveChanges();
             #endregion
+
         }
     }
 }

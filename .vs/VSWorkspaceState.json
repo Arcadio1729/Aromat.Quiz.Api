@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Aromat.Quiz.Api",
+    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
+    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
+    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Migrations"
   ],
-  "SelectedNode": "\\Aromat.Quiz.Api.sln",
+  "SelectedNode": "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Migrations\\20220709171744_coursePart03.cs",
   "PreviewInSolutionExplorer": false
 }

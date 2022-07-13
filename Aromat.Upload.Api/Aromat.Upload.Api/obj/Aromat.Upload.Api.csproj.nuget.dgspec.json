@@ -1,32 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\arcad\\Desktop\\ja\\CS\\dotnetcore\\Aromat\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj": {}
+    "C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\arcad\\Desktop\\ja\\CS\\dotnetcore\\Aromat\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj": {
+    "C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\arcad\\Desktop\\ja\\CS\\dotnetcore\\Aromat\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj",
+        "projectUniqueName": "C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj",
         "projectName": "Aromat.Upload.Api",
-        "projectPath": "C:\\Users\\arcad\\Desktop\\ja\\CS\\dotnetcore\\Aromat\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj",
-        "packagesPath": "C:\\Users\\arcad\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\arcad\\Desktop\\ja\\CS\\dotnetcore\\Aromat\\Aromat.Upload.Api\\Aromat.Upload.Api\\obj\\",
+        "projectPath": "C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat.Upload.Api\\Aromat.Upload.Api\\Aromat.Upload.Api.csproj",
+        "packagesPath": "C:\\Users\\ADutka\\.nuget\\packages\\",
+        "outputPath": "C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat.Upload.Api\\Aromat.Upload.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\arcad\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADutka\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

@@ -33,11 +33,22 @@ namespace Aromat.Quiz.Api.Model
         public DbSet<Students> Students { get; set; }
         #endregion
 
-        public DbSet<CategoryDetailsView> CategoryDetailsView { get; set; }
+        #region Files
+        public DbSet<FileDetails> FileDetails { get; set; }
+        public DbSet<FileData> FileData { get; set; }
+
+        #endregion
+        public virtual DbSet<CategoryDetails> CategoryDetails { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder
+                .Entity<CategoryDetails>(cd =>
+                {
+                    cd.HasNoKey();
+                    cd.ToView("CategoryDetailsView");
+                });
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
