@@ -45,6 +45,52 @@ namespace Aromat.Quiz.Api.Migrations
                     b.ToTable("Answers");
                 });
 
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.Authentication.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.Authentication.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -94,10 +140,10 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CourseDetailsId")
+                    b.Property<int>("CourseDetailsId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QuestionSetId")
+                    b.Property<int>("QuestionSetId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -116,10 +162,10 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CourseDetailsId")
+                    b.Property<int>("CourseDetailsId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudentsId")
+                    b.Property<int>("StudentsId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -312,7 +358,12 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Students");
                 });
@@ -381,6 +432,17 @@ namespace Aromat.Quiz.Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.Authentication.User", b =>
+                {
+                    b.HasOne("Aromat.Quiz.Api.Model.Authentication.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Category", b =>
                 {
                     b.HasOne("Aromat.Quiz.Api.Model.Degree", null)
@@ -406,22 +468,30 @@ namespace Aromat.Quiz.Api.Migrations
                 {
                     b.HasOne("Aromat.Quiz.Api.Model.CourseDetails", null)
                         .WithMany("CourseQuestionSets")
-                        .HasForeignKey("CourseDetailsId");
+                        .HasForeignKey("CourseDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Aromat.Quiz.Api.Model.QuestionSet", null)
                         .WithMany("CourseQuestionSets")
-                        .HasForeignKey("QuestionSetId");
+                        .HasForeignKey("QuestionSetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.CoursesStudents", b =>
                 {
                     b.HasOne("Aromat.Quiz.Api.Model.CourseDetails", null)
                         .WithMany("CourseStudents")
-                        .HasForeignKey("CourseDetailsId");
+                        .HasForeignKey("CourseDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Aromat.Quiz.Api.Model.Students", null)
                         .WithMany("CourseStudents")
-                        .HasForeignKey("StudentsId");
+                        .HasForeignKey("StudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.FileData", b =>
@@ -472,6 +542,15 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasForeignKey("QuestionSetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.Students", b =>
+                {
+                    b.HasOne("Aromat.Quiz.Api.Model.Authentication.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.SubSubject", b =>

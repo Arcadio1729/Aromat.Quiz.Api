@@ -8,5 +8,7 @@ namespace Aromat.Quiz.Api.Model
     public class CoursesStudents
     {
         public int Id { get; set; }
+        public int CourseDetailsId { get; set; }
+        public int StudentsId { get; set; }
     }
 }

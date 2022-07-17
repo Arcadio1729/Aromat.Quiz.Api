@@ -1,4 +1,5 @@
-﻿using Aromat.Quiz.Api.Model.Dto;
+﻿using Aromat.Quiz.Api.Model.Authentication;
+using Aromat.Quiz.Api.Model.Dto;
 using Aromat.Quiz.Api.Model.View;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -38,6 +39,12 @@ namespace Aromat.Quiz.Api.Model
         public DbSet<FileData> FileData { get; set; }
 
         #endregion
+
+        #region Authentication
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        #endregion
+        
         public virtual DbSet<CategoryDetails> CategoryDetails { get; set; }
 
 
@@ -49,6 +56,16 @@ namespace Aromat.Quiz.Api.Model
                     cd.HasNoKey();
                     cd.ToView("CategoryDetailsView");
                 });
+
+            modelBuilder
+                .Entity<User>()
+                .Property(u => u.Email)
+                .IsRequired();
+
+            modelBuilder
+                .Entity<Role>()
+                .Property(r => r.Name)
+                .IsRequired();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

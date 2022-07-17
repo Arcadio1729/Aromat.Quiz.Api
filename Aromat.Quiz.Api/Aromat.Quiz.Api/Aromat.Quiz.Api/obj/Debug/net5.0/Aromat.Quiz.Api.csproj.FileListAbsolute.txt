@@ -94,7 +94,6 @@ C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bi
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Microsoft.OpenApi.dll
-C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -138,3 +137,8 @@ C:\Users\arcad\Desktop\ja\CS\dotnetcore\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\A
 C:\Users\arcad\Desktop\ja\CS\dotnetcore\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\NLog.Extensions.Logging.dll
 C:\Users\arcad\Desktop\ja\CS\dotnetcore\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\NLog.Web.AspNetCore.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\Aromat.Quiz.Api.csproj.AssemblyReference.cache
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\FluentValidation.dll
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\FluentValidation.AspNetCore.dll
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Newtonsoft.Json.dll

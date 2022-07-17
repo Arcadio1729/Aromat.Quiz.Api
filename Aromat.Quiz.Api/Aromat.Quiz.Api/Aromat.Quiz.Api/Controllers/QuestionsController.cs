@@ -1,5 +1,6 @@
 ﻿using Aromat.Quiz.Api.Model.Dto;
 using Aromat.Quiz.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Aromat.Quiz.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/question")]
     public class QuestionsController : Controller

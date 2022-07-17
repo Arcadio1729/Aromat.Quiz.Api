@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Newtonsoft.Json;
 
 namespace Aromat.Quiz.Api.Services
 {
@@ -19,14 +21,15 @@ namespace Aromat.Quiz.Api.Services
             this._context = context;
             this._mapping = mapping;
         }
-        public void AddCourse(CourseDetailsDto courseDto)
+
+
+        public void CreateCourse(CourseDetailsDto courseDto)
         {
             var course = this._mapping.Map<CourseDetails>(courseDto);
 
             this._context.CourseDetails.Add(course);
             this._context.SaveChanges();
         }
-
         public void AddQuestionsToSet(int setId, List<QuestionDto> questions)
         {
             foreach (var q in questions)
@@ -40,8 +43,7 @@ namespace Aromat.Quiz.Api.Services
             }
             this._context.SaveChanges();
         }
-
-        public void CreateQuestionSet(List<QuestionDto> questions)
+        public void CreateSet(List<QuestionDto> questions)
         {
             var setId = this.CreateSet("new set");
             var currentSet = this._context.QuestionSets.FirstOrDefault(q => q.Id == setId);
@@ -58,7 +60,6 @@ namespace Aromat.Quiz.Api.Services
 
             this._context.SaveChanges();
         }
-
         private int CreateSet(string name)
         {
             QuestionSet qs = new QuestionSet
@@ -70,6 +71,43 @@ namespace Aromat.Quiz.Api.Services
             this._context.SaveChanges();
 
             return qs.Id;
+        }
+
+        public string ReadCourses(ClaimsPrincipal user)
+        {
+            var json = user.Claims.FirstOrDefault(x => x.Type == "Courses").Value;
+            //var courses = JsonConvert.DeserializeObject<List<CoursesStudents>>(json);
+
+            return json;
+        }
+        public void AddSetsToCourse(AddSetsToCourseDto sets)
+        {
+            var courseId = sets.CourseId;
+
+            foreach (var s in sets.Sets)
+            {
+                this._context.CoursesQuestionsSets.Add(
+                    new CoursesQuestionsSet
+                    {
+                        CourseDetailsId = courseId,
+                        QuestionSetId = s.SetId
+                    });
+            }
+
+            this._context.SaveChanges();
+        }
+        public void AddCourseStudent(CourseStudentDto courseStudent)
+        {
+            CoursesStudents cs = new CoursesStudents
+            {
+                CourseDetailsId = courseStudent.CourseId,
+                StudentsId = courseStudent.StudentId
+            };
+
+            this._context.CoursesStudents.Add(cs);
+            this._context.SaveChanges();
+
+
         }
     }
 }

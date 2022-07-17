@@ -23,7 +23,12 @@ namespace Aromat.Quiz.Api.Middleware
             {
                 await next.Invoke(context);
             }
-            catch(NotFoundException nfe)
+            catch (BadRequestException br)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync(br.Message);
+            }
+            catch (NotFoundException nfe)
             {
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(nfe.Message);
