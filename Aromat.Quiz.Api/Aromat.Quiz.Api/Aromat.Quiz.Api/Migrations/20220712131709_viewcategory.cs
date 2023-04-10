@@ -6,8 +6,7 @@ namespace Aromat.Quiz.Api.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Categories_Details_View");
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

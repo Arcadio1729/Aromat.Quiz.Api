@@ -15,7 +15,7 @@ namespace Aromat.Quiz.Api.Model
 
         public string Content { get; set; }
         public string LatexContent { get; set; }
-        
+
         public bool QuizQuestion { get; set; }
 
         [Column("ImageId")]

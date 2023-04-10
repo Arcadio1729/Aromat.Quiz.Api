@@ -45,6 +45,32 @@ namespace Aromat.Quiz.Api.Migrations
                     b.ToTable("Answers");
                 });
 
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.Authentication.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TokenId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Authentication.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -209,12 +235,7 @@ namespace Aromat.Quiz.Api.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int?>("FileDetailsId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("FileDetailsId");
 
                     b.ToTable("FileData");
                 });
@@ -358,7 +379,7 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -411,14 +432,20 @@ namespace Aromat.Quiz.Api.Migrations
                     b.Property<string>("Degree")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DegreeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Level")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("School")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LevelId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Subject")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
 
                     b.ToView("CategoryDetailsView");
                 });
@@ -430,6 +457,17 @@ namespace Aromat.Quiz.Api.Migrations
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.Authentication.RefreshToken", b =>
+                {
+                    b.HasOne("Aromat.Quiz.Api.Model.Authentication.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Authentication.User", b =>
@@ -445,23 +483,29 @@ namespace Aromat.Quiz.Api.Migrations
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Category", b =>
                 {
-                    b.HasOne("Aromat.Quiz.Api.Model.Degree", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.Degree", "Degree")
                         .WithMany("Categories")
                         .HasForeignKey("DegreeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Aromat.Quiz.Api.Model.Level", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.Level", "Level")
                         .WithMany("Categories")
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Aromat.Quiz.Api.Model.SubSubject", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.SubSubject", "Subject")
                         .WithMany("Categories")
                         .HasForeignKey("SubSubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Degree");
+
+                    b.Navigation("Level");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.CoursesQuestionsSet", b =>
@@ -472,35 +516,32 @@ namespace Aromat.Quiz.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Aromat.Quiz.Api.Model.QuestionSet", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.QuestionSet", "QuestionSet")
                         .WithMany("CourseQuestionSets")
                         .HasForeignKey("QuestionSetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("QuestionSet");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.CoursesStudents", b =>
                 {
-                    b.HasOne("Aromat.Quiz.Api.Model.CourseDetails", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.CourseDetails", "CourseDetails")
                         .WithMany("CourseStudents")
                         .HasForeignKey("CourseDetailsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Aromat.Quiz.Api.Model.Students", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.Students", "Student")
                         .WithMany("CourseStudents")
                         .HasForeignKey("StudentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("Aromat.Quiz.Api.Model.FileData", b =>
-                {
-                    b.HasOne("Aromat.Quiz.Api.Model.FileDetails", "FileDetails")
-                        .WithMany()
-                        .HasForeignKey("FileDetailsId");
+                    b.Navigation("CourseDetails");
 
-                    b.Navigation("FileDetails");
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Question", b =>
@@ -516,50 +557,67 @@ namespace Aromat.Quiz.Api.Migrations
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.QuestionDetails", b =>
                 {
-                    b.HasOne("Aromat.Quiz.Api.Model.Category", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.Category", "Category")
                         .WithMany("QuestionsDetails")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Aromat.Quiz.Api.Model.Question", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.Question", "Question")
                         .WithOne("QuestionsDetails")
                         .HasForeignKey("Aromat.Quiz.Api.Model.QuestionDetails", "QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.QuestionSetMapping", b =>
                 {
-                    b.HasOne("Aromat.Quiz.Api.Model.Question", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.Question", "Question")
                         .WithMany("QuestionSetMapping")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Aromat.Quiz.Api.Model.QuestionSet", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.QuestionSet", "QuestionSet")
                         .WithMany("QuestionSetMapping")
                         .HasForeignKey("QuestionSetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("QuestionSet");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Students", b =>
                 {
                     b.HasOne("Aromat.Quiz.Api.Model.Authentication.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.SubSubject", b =>
                 {
-                    b.HasOne("Aromat.Quiz.Api.Model.Subject", null)
+                    b.HasOne("Aromat.Quiz.Api.Model.Subject", "Subject")
                         .WithMany("SubSubjects")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("Aromat.Quiz.Api.Model.Authentication.User", b =>
+                {
+                    b.Navigation("RefreshTokens");
                 });
 
             modelBuilder.Entity("Aromat.Quiz.Api.Model.Category", b =>

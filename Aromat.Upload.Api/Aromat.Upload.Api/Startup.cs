@@ -31,10 +31,24 @@ namespace Aromat.Upload.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "Swagger Aromat.Upload.Api",
+                        Description = "Aromat.Upload.Api swagger specification.",
+                        Version = "v1"
+                    });
+            });
+
             services.AddDbContext<UploadDbContext>();
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ErrorHandlingMiddleware>();
+            services.AddCors(); // Make sure you call this previous to AddMvc
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +65,19 @@ namespace Aromat.Upload.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseCors(
+                options => options.WithOrigins("https://localhost:44357")
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+            );
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Aromat Upload Api");
             });
         }
     }

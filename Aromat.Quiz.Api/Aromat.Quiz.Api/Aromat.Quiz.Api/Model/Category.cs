@@ -12,6 +12,10 @@ namespace Aromat.Quiz.Api.Model
         public int SubSubjectId { get; set; }
         public int DegreeId { get; set; }
 
+        public virtual Level Level { get; set; }
+        public virtual SubSubject Subject { get; set; }
+        public virtual Degree Degree { get; set; }
+
         public virtual List<QuestionDetails> QuestionsDetails { get; set; }
     }
 }

@@ -30,6 +30,25 @@ namespace Aromat.Quiz.Api
             CreateMap<CourseDetailsDto, CourseDetails>()
                 .ForMember(c => c.Id, dto => dto.MapFrom(x => x.Id))
                 .ForMember(c => c.Name, dto => dto.MapFrom(x => x.Name));
+
+            CreateMap<CourseDetails, CourseDetailsDto>()
+                .ForMember(dto => dto.Id, c => c.MapFrom(x => x.Id))
+                .ForMember(dto => dto.Name, c => c.MapFrom(x => x.Name));
+
+
+
+            CreateMap<Degree, ReadDegreeDto>()
+                .ForMember(dto => dto.Id, d => d.MapFrom(x => x.Id))
+                .ForMember(dto => dto.Description, d => d.MapFrom(x => x.Description));
+
+            CreateMap<Level, ReadLevelDto>()
+                .ForMember(dto => dto.Id, d => d.MapFrom(x => x.Id))
+                .ForMember(dto => dto.Name, d => d.MapFrom(x => x.Description));
+
+
+            CreateMap<SubSubject, ReadSubjectDto>()
+                .ForMember(dto => dto.Id, d => d.MapFrom(x => x.Id))
+                .ForMember(dto => dto.Name, d => d.MapFrom(x => x.Name));
         }
     }
 }

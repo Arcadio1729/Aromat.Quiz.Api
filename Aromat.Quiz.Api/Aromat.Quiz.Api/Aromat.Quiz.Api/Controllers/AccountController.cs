@@ -26,20 +26,75 @@ namespace Aromat.Quiz.Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                return BadRequest(errors.FirstOrDefault().ErrorMessage);
             }
 
-            this._service.RegisterUser(userDto);
+            var createdUserDto = this._service.RegisterUser(userDto);
 
-            return Ok();
+            return Ok(createdUserDto);
         }
     
         [HttpPost]
         [Route("login")]
         public ActionResult LoginUser([FromBody]LoginDto loginDto)
         {
-            string token = this._service.GenerateJwt(loginDto);
-            return Ok(token);
+            var userWithToken = this._service.LoginUser(loginDto);
+            return Ok(userWithToken);
+        }
+
+        [HttpPost]
+        [Route("refresh-token")]
+        public async Task<ActionResult<UserWithToken>> RefreshToken([FromBody]RefreshRequest refreshRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var result = this._service.RefreshToken(refreshRequest);
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("roles")]
+        public ActionResult GetRoles()
+        {
+            var roles=this._service.GetRoles();
+            return Ok(roles);
+        }
+
+        [HttpGet]
+        [Route("users")]
+        public ActionResult GetUsers()
+        {
+            var users=this._service.GetUsers();
+            return Ok(users);
+        }
+
+        [HttpGet]
+        [Route("users/{userId}")]
+        public ActionResult GetUser([FromRoute]int userId)
+        {
+            var user = this._service.GetUser(userId);
+            return Ok(user);
+        }
+
+        [HttpPost]
+        [Route("roles/add-role/{roleName}")]
+        public ActionResult AddRole([FromRoute]string roleName)
+        {
+            this._service.AddRole(roleName);
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("users/remove")]
+        public ActionResult RemoveUser([FromQuery] int userId)
+        {
+            this._service.RemoveUser(userId);
+            return Ok();
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Aromat.Upload.Api.Model.Dto;
+﻿using Aromat.Upload.Api.Model;
+using Aromat.Upload.Api.Model.Dto;
 using Aromat.Upload.Api.Service;
 using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,7 +27,7 @@ namespace Aromat.Upload.Api.Controllers
         }
 
         [HttpPost]
-        [Route("upload-file-db")]
+        [Route("upload-file-form")]
         public ActionResult UploadFiles(IFormFile file)
         {
             if (!ModelState.IsValid)
@@ -35,10 +37,23 @@ namespace Aromat.Upload.Api.Controllers
 
             var fileDto = this._mapper.Map<UploadFileDto>(file);
 
-            this._fileService.CreateFileDb(fileDto);
-            return Ok();
+            var result = this._fileService.CreateFileDb(fileDto);
+            return Ok(result);
         }
 
+
+        [HttpPost]
+        [Route("upload-file-body")]
+        public ActionResult UploadFiles([FromBody]   fileDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = this._fileService.CreateFileDb(fileDto);
+            return Ok(result);
+        }
 
         [HttpPost]
         [Route("upload-files-db")]
@@ -56,6 +71,19 @@ namespace Aromat.Upload.Api.Controllers
         {
             byte[] img = this._fileService.GetFile(id);
             return File(img, "image/png");
+        }
+    
+        [HttpGet]
+        [Route("download-test")]
+        public IEnumerable<Person> TestGet()
+        {
+            var rng = new Random();
+            return Enumerable.Range(1, 5).Select(index => new Person
+            {
+                Name = "Mr",
+                Age = rng.Next(0, 99)
+            })
+            .ToArray();
         }
     }
 }

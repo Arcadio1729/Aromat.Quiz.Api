@@ -4,6 +4,7 @@
     <Controller_SelectedScaffolderID>MvcControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/MVC/Controller</Controller_SelectedScaffolderCategoryPath>
     <ActiveDebugProfile>Aromat.Quiz.Api</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\Properties\PublishProfiles\aromat-quiz-api - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

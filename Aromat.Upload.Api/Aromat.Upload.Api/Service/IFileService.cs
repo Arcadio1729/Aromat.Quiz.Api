@@ -12,7 +12,7 @@ namespace Aromat.Upload.Api.Service
     {
         byte[] GetFile(int id);
         IEnumerable<byte[]> GetFiles(List<int> filesId);
-        void CreateFileDb(UploadFileDto file);
+        string CreateFileDb(UploadFileDto file);
         void CreateFilesDb(List<UploadFileDto> files);
     }
 }

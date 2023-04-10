@@ -24,6 +24,7 @@ namespace Aromat.Upload.Api.Middleware
             }
             catch(NotFoundException notFoundException)
             {
+                this._logger.LogError(notFoundException, notFoundException.Message);
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(notFoundException.Message);
             }
@@ -32,6 +33,7 @@ namespace Aromat.Upload.Api.Middleware
                 this._logger.LogError(e, e.Message);
 
                 context.Response.StatusCode = 500;
+                //await context.Response.WriteAsync("Message "+e.Message+"\nInner Exception: "+e.InnerException);
                 await context.Response.WriteAsync("Something went  wrong");
             }
         }

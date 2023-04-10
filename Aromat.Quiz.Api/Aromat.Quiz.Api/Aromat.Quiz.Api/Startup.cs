@@ -41,6 +41,15 @@ namespace Aromat.Quiz.Api
 
             Configuration.GetSection("Authentication").Bind(authenticationSettings);
 
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+
             services.AddSingleton(authenticationSettings);
             services.AddAuthentication(options =>
             {
@@ -67,6 +76,12 @@ namespace Aromat.Quiz.Api
             services.AddDbContext<QuizDbContext>();
 
             services.AddScoped<QuizSeeder>();
+
+            var jwtSection = Configuration.GetSection("JWTSettings");
+            services.Configure<JWTSettings>(jwtSection);
+
+            var appSettings = jwtSection.Get<JWTSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
 
             #region Services
             services.AddScoped<IAccountService, AccountService>();
@@ -98,7 +113,9 @@ namespace Aromat.Quiz.Api
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors("CorsPolicy");
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

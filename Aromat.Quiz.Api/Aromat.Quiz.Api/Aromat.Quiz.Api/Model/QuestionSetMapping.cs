@@ -10,5 +10,7 @@ namespace Aromat.Quiz.Api.Model
         public int Id { get; set; }
         public int QuestionId { get; set; }
         public int QuestionSetId { get; set; }
+        public virtual QuestionSet QuestionSet { get; set; }
+        public virtual Question Question { get; set; }
     }
 }

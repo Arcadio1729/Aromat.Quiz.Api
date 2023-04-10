@@ -13,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Aromat.Quiz.Api.Services
 {
@@ -21,66 +23,85 @@ namespace Aromat.Quiz.Api.Services
         private readonly QuizDbContext _context;
         private IPasswordHasher<User> _hasher;
         private readonly AuthenticationSettings _settings;
+        private readonly JWTSettings _jwtsettings;
 
         public AccountService(
             QuizDbContext context,
             IPasswordHasher<User> hasher,
-            AuthenticationSettings settings)
+            AuthenticationSettings settings,
+            IOptions<JWTSettings> jwtSettings)
         {
             this._context = context;
             this._hasher = hasher;
             this._settings = settings;
+            this._jwtsettings = jwtSettings.Value;
         }
 
-        public void RegisterUser(RegisterUserDto userDto)
+        public ActionResult<ReadUser> RegisterUser(RegisterUserDto userDto)
         {
-            var newUser = new User()
-            {
-                Email = userDto.Email,
-                RoleId = userDto.RoleId
-            };
-
-            var hashedPassword = this._hasher.HashPassword(newUser, userDto.Password);
-
-            newUser.PasswordHash = hashedPassword;
-
             Students student = new Students
             {
-                Name = userDto.Email,
-                User = newUser
+                Name = userDto.Email
             };
+
+            Role role = this._context.Roles.FirstOrDefault(r => r.Id == userDto.RoleId);
+
+            User user = new User
+            {
+                Email = userDto.Email,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Role=role,
+                RoleId=userDto.RoleId
+            };
+
+            student.User = user;
+
+            var hashedPassword = this._hasher.HashPassword(user, userDto.Password);
+            user.PasswordHash = hashedPassword;
 
             this._context.Students.Add(student);
             this._context.SaveChanges();
+
+            return new ReadUser { Email = user.Email, Role = user.RoleId };
         }
     
-        public string GenerateJwt(LoginDto loginDto)
+        public JwtSecurityToken GenerateJwt(User user,LoginDto loginDto)
         {
-            var user = this._context.Users
-                .Include(u=>u.Role)
-                .FirstOrDefault(u => u.Email == loginDto.Email);
+            UserWithToken userWithToken = null;
 
             if(user is null)
-                throw new BadRequestException("Invalid username or password");
+                throw new BadRequestException("Invalid username or password");  
+
 
             var results = this._hasher.VerifyHashedPassword(user, user.PasswordHash, loginDto.Password);
 
             if (results == PasswordVerificationResult.Failed)
                 throw new BadRequestException("Invalid username or password");
 
-            var studentId = this._context.Students.FirstOrDefault(s => s.UserId == user.Id).Id;
+            var studentId = this._context
+                .Students
+                .FirstOrDefault(s => s.UserId == user.Id).Id;
 
             var coursesstudents = this._context
                     .CoursesStudents
                     .Where(cs => cs.StudentsId == studentId)
                     .Select(x => x.CourseDetailsId).ToList();
 
-            List<CourseDetails> courses = new List<CourseDetails>();
+            List<ReadCourseDto> courses = new List<ReadCourseDto>();
 
             foreach (var cs in coursesstudents)
             {
-                var course = this._context.CourseDetails.FirstOrDefault(cd => cd.Id == cs);
-                courses.Add(course);
+                var course = this._context
+                    .CourseDetails
+                    .Select(cd => new
+                    {
+                        Id=cd.Id,
+                        Name=cd.Name
+                    })
+                    .FirstOrDefault(cd => cd.Id == cs);
+
+                courses.Add(new ReadCourseDto { Name = course.Name });
             }
             
             var json = JsonConvert.SerializeObject(courses);
@@ -103,9 +124,256 @@ namespace Aromat.Quiz.Api.Services
                 expires: expires,
                 signingCredentials: credentials);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+            return token;
+        }
 
+        private string GenerateAccessToken(int userId)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_jwtsettings.SecretKey);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, Convert.ToString(userId))
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+       
+        #region old loginuser
+        //public ActionResult<ReadUser> LoginUser(LoginDto dto)
+        //{
+        //    var user = this._context.Users
+        //       .Include(u => u.Role)
+        //       .FirstOrDefault(u => u.Email == dto.Email);
+
+        //    var token = this.GenerateJwt(user,dto);
+        //    JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+
+        //    UserWithToken userWithToken = null;
+
+        //    RefreshToken refreshToken = new RefreshToken
+        //    {
+        //        ExpiryDate = token.ValidTo,
+        //        Token = tokenHandler.WriteToken(token)
+        //    };
+
+        //    userWithToken = new UserWithToken(user);
+        //    userWithToken.RefreshToken = refreshToken.Token;
+
+        //    if (userWithToken == null)
+        //    {
+        //        throw new NotFoundException("User with token not found.");
+        //    }
+
+        //    userWithToken.AccessToken = tokenHandler.WriteToken(token);
+
+        //    return new ReadUser
+        //    {
+        //        AccessToken = userWithToken.AccessToken,
+        //        Email = userWithToken.Email,
+        //        FirstName = userWithToken.FirstName,
+        //        LastName = userWithToken.LastName,
+        //        RefreshToken = userWithToken.RefreshToken,
+        //        Id = userWithToken.Id,
+        //        Role=userWithToken.Role.Id
+        //    };
+
+        //}
+
+        #endregion
+        
+        public ActionResult<ReadUserWithTokenDto> LoginUser(LoginDto dto)
+        {
+            var user = this._context.Users
+               .Include(u => u.Role)
+               .FirstOrDefault(u => u.Email == dto.Email);
+
+            var token = this.GenerateJwt(user, dto);
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+
+            UserWithToken userWithToken = null;
+
+            RefreshToken refreshToken = new RefreshToken
+            {
+                ExpiryDate = token.ValidTo,
+                Token = tokenHandler.WriteToken(token)
+            };
+
+            userWithToken = new UserWithToken(user);
+            userWithToken.RefreshToken = refreshToken.Token;
+
+            if (userWithToken == null)
+            {
+                throw new NotFoundException("User with token not found.");
+            }
+
+            userWithToken.AccessToken = tokenHandler.WriteToken(token);
+
+            return new ReadUserWithTokenDto
+            {
+                AccessToken = userWithToken.AccessToken,
+                Email = userWithToken.Email,
+                FirstName = userWithToken.FirstName,
+                LastName = userWithToken.LastName,
+                RefreshToken = userWithToken.RefreshToken,
+                Id = userWithToken.Id,
+                Role = userWithToken.Role.Name
+            };
+        }
+        public async Task<User> GetUserFromAccessToken(string accessToken)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtsettings.SecretKey);
+
+                var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+
+                SecurityToken securityToken;
+                var principle = tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out securityToken);
+
+                JwtSecurityToken jwtSecurityToken = securityToken as JwtSecurityToken;
+
+                if (jwtSecurityToken != null && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var userId = principle.FindFirst(ClaimTypes.Name)?.Value;
+
+                    return await _context
+                        .Users
+                        .Include(u => u.Role)
+                        .Where(u => u.Id == Convert.ToInt32(userId))
+                        .FirstOrDefaultAsync();
+                }
+            }
+            catch (Exception)
+            {
+                return new User();
+            }
+
+            return new User();
+        }
+        public async Task<ActionResult<UserWithToken>> RefreshToken(RefreshRequest refreshRequest)
+        {
+            User user = await GetUserFromAccessToken(refreshRequest.AccessToken);
+
+            if (user != null && ValidateRefreshToken(user, refreshRequest.RefreshToken))
+            {
+                UserWithToken userWithToken = new UserWithToken(user);
+                userWithToken.AccessToken = GenerateAccessToken(user.Id);
+
+                return userWithToken;
+            }
+
+            return null;
+        }
+
+        private bool ValidateRefreshToken(User user, string refreshToken)
+        {
+
+            RefreshToken refreshTokenUser = this._context
+                .RefreshTokens
+                .Where(rt => rt.Token == refreshToken)
+                .OrderByDescending(rt => rt.ExpiryDate)
+                .FirstOrDefault();
+
+            if (refreshTokenUser != null && 
+                refreshTokenUser.UserId == user.Id && 
+                refreshTokenUser.ExpiryDate > DateTime.UtcNow)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public JwtSecurityToken GenerateJwt(LoginDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ReadUserDto> IAccountService.GetUserFromAccessToken(string accessToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetRoles()
+        {
+            var roles = this._context.Roles;
+            var json = JsonConvert.SerializeObject(roles);
+
+            return json;
+        }
+        public string GetUsers()
+        {
+            var users = this._context.Users.Select(
+                u => new ReadUserDto
+                {
+                    Email = u.Email,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Id = u.Id,
+                    Role = u.Role.Name
+                }).ToList();
+
+            var json = JsonConvert.SerializeObject(users);
+
+            return json;
+        }
+
+        public string GetUser(int userId)
+        {
+            var user = this._context.Users
+                .Select(
+                        u => new ReadUserDto
+                        {
+                            Email = u.Email,
+                            FirstName = u.FirstName,
+                            LastName = u.LastName,
+                            Id = u.Id,
+                            Role = u.Role.Name
+                        })
+                .FirstOrDefault(u => u.Id == userId);
+
+            var json = JsonConvert.SerializeObject(user);
+
+            return json;
+        }
+
+        public async Task<string> AddRole(string roleName)
+        {
+            try
+            {
+                var role = new Role() { Name = roleName };
+                await this._context.Roles.AddAsync(role);
+                await this._context.SaveChangesAsync();
+            }
+            catch(Exception e)
+            {
+                return "Something went wrong";
+            }
+            return "";
+        }
+        public async Task RemoveUser(int userId)
+        {
+            var user = this._context.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (user is null)
+                throw new NotFoundException($"Course with id {userId} not found.");
+
+            this._context.Users.Remove(user);
+            this._context.SaveChanges();
         }
     }
 }

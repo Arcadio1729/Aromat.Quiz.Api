@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "restored": true,
+      "restoreTime": "2022-10-18T12:15:17.1484125Z"
+    },
+    "appInsights1": {
+      "restored": true,
+      "restoreTime": "2022-10-18T12:15:28.7518979Z"
+    }
+  },
+  "parameters": {
+    "appInsights1.subscriptionId": {
+      "Name": "appInsights1.subscriptionId",
+      "Type": "subscription",
+      "Value": "a6e5bbe2-0237-4cdc-a106-4f0db679cf42"
+    },
+    "appInsights1.resourceGroupName": {
+      "Name": "appInsights1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "rg-aromat-api"
+    }
+  }
+}

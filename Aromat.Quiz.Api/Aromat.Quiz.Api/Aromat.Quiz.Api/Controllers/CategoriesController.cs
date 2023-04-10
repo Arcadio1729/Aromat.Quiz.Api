@@ -19,6 +19,43 @@ namespace Aromat.Quiz.Api.Controllers
             this._service = service;
         }
 
+
+        [HttpGet]
+        [Route("degrees")]
+        public ActionResult ReadDegrees()
+        {
+            var result = this._service.ReadDegrees();
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("levels")]
+        public ActionResult ReadLevels()
+        {
+            var result = this._service.ReadLevels();
+
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        [Route("subjects")]
+        public ActionResult ReadSubjects()
+        {
+            var result = this._service.ReadSubjects();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("base-subjects")]
+        public ActionResult ReadBaseSubjects()
+        {
+            var result = this._service.ReadBaseSubjects();
+            return Ok(result);
+        }
+         
+
         [HttpPost]
         [Route("add-categories")]
         public ActionResult CreateCategories()
@@ -59,7 +96,7 @@ namespace Aromat.Quiz.Api.Controllers
         }
 
         [HttpPost]
-        [Route("add-subject")]
+        [Route("subjects/add-subject")]  
         public ActionResult CreateSubject([FromBody]CreateSubjectDto subject)
         {
             if (!ModelState.IsValid)
@@ -70,5 +107,7 @@ namespace Aromat.Quiz.Api.Controllers
             this._service.AddSubject(subject);
             return Ok();
         }
+
+
     }
 }

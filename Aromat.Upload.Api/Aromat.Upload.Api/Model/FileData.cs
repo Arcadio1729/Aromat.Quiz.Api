@@ -12,6 +12,5 @@ namespace Aromat.Upload.Api.Model
         public int Id { get; set; }
         [Required]
         public byte[] Data { get; set; }
-        public virtual FileDetails FileDetails { get; set; }
     }
 }

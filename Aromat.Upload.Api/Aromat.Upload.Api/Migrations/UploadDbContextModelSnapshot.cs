@@ -37,7 +37,7 @@ namespace Aromat.Upload.Api.Migrations
 
                     b.HasIndex("FileDetailsId");
 
-                    b.ToTable("FilesData");
+                    b.ToTable("FileData");
                 });
 
             modelBuilder.Entity("Aromat.Upload.Api.Model.FileDetails", b =>

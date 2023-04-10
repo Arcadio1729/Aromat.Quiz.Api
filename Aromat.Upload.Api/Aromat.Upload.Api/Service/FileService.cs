@@ -2,6 +2,8 @@
 using Aromat.Upload.Api.Model;
 using Aromat.Upload.Api.Model.Dto;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,10 +15,12 @@ namespace Aromat.Upload.Api.Service
     public class FileService : IFileService
     {
         private readonly UploadDbContext _context;
+        private readonly ILogger<FileService> _logger;
 
-        public FileService(UploadDbContext context)
+        public FileService(UploadDbContext context, ILogger<FileService> logger)
         {
             this._context = context;
+            this._logger = logger;
         }
 
         public byte[] GetFile(int id)
@@ -44,19 +48,28 @@ namespace Aromat.Upload.Api.Service
 
             return files;
         }
-        public void CreateFileDb(UploadFileDto file)
+        public string CreateFileDb(UploadFileDto file)
         {
             FileData f = new FileData()
             {
-                Data = file.Data,
-                FileDetails = new FileDetails()
-                {
-                    Extension = file.Extension,
-                    Title = file.Title
-                }
+                Data = file.Data
             };
+
             this._context.FileData.Add(f);
             this._context.SaveChanges();
+
+            UploadedFileDto dto = new UploadedFileDto 
+            { 
+                Data = f.Data,
+                Id=f.Id
+            };
+
+            var json = JsonConvert.SerializeObject(dto);
+
+            this._logger.LogInformation($"info - {DateTime.Now} - Id: {dto.Id}");
+            this._logger.LogTrace($"trace - {DateTime.Now} - Id: {dto.Id}");
+
+            return json;
         }
         public void CreateFilesDb(List<UploadFileDto> filesDtos)
         {
@@ -64,34 +77,13 @@ namespace Aromat.Upload.Api.Service
             {
                 FileData f = new FileData()
                 {
-                    Data = fd.Data,
-                    FileDetails = new FileDetails()
-                    {
-                        Extension = fd.Extension,
-                        Title = fd.Title
-                    }
+                    Data = fd.Data
                 };
+
                 this._context.FileData.Add(f);
                 this._context.SaveChanges();
             }
         }
 
-        //public void UploadFilesDb(List<IFormFile> files)
-        //{
-        //    files.ForEach(file=>
-        //    {
-        //        Image img = new Image();
-
-        //        if (file.Length <= 0) return;
-
-        //        using (MemoryStream ms = new MemoryStream())
-        //        {
-        //            file.CopyToAsync(ms);
-        //            img.ImageData = ms.ToArray();
-        //            this._context.Images.Add(img);
-        //            this._context.SaveChanges();
-        //        }
-        //    });
-        //}
     }
 }

@@ -10,5 +10,10 @@ namespace Aromat.Quiz.Api.Services
     public interface IQuestionService
     {
         void CreateQuestion(CreateQuestionDto question);
+        void UpdateQuestion(UpdateQuestionDto question);
+        string GetAll(string levelId, string degreeId, string subjectId,string searchPhrase);
+        string GetById(int questionId);
+        string GetBySet(int setId);
+        void RemoveQuestion(int id);
     }
 }
