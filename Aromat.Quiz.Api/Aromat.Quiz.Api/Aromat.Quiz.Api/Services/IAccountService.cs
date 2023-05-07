@@ -18,9 +18,13 @@ namespace Aromat.Quiz.Api.Services
         Task<ReadUserDto> GetUserFromAccessToken(string accessToken);
         string GetRoles();
         string GetUsers();
+        string GetUsersByCourse(int courseId);
         string GetUser(int userId);
         Task RemoveUser(int userId);
         Task<string> AddRole(string roleName);
         Task<ActionResult<UserWithToken>> RefreshToken([FromBody]RefreshRequest refreshRequest);
+
+        Task<string> UpdateUser(UpdateUserDto updateUserDto);
+        Task<string> CreateUser(AddUserDto addUserDto);
     }
 }

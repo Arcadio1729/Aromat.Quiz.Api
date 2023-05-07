@@ -65,7 +65,6 @@ namespace Aromat.Quiz.Api.Services
 
             return new ReadUser { Email = user.Email, Role = user.RoleId };
         }
-    
         public JwtSecurityToken GenerateJwt(User user,LoginDto loginDto)
         {
             UserWithToken userWithToken = null;
@@ -126,7 +125,6 @@ namespace Aromat.Quiz.Api.Services
 
             return token;
         }
-
         private string GenerateAccessToken(int userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -331,7 +329,6 @@ namespace Aromat.Quiz.Api.Services
 
             return json;
         }
-
         public string GetUser(int userId)
         {
             var user = this._context.Users
@@ -350,6 +347,52 @@ namespace Aromat.Quiz.Api.Services
 
             return json;
         }
+
+        public async Task<string> UpdateUser(UpdateUserDto updateUserDto)
+        {
+            try
+            {
+                User user = this._context.Users.FirstOrDefault(u => updateUserDto.Id == u.Id);
+
+                user.Email = updateUserDto.Email;
+                user.FirstName = updateUserDto.FirstName;
+                user.LastName = updateUserDto.LastName;
+                user.Role = this._context.Roles.FirstOrDefault(r => r.Name == updateUserDto.Role);
+
+                this._context.Users.Update(user);
+                await this._context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                return "Something went wrong";
+            }
+
+            return "";
+        }
+        
+        public async Task<string> CreateUser(AddUserDto addUserDto)
+        {
+            try
+            {
+                User user = new User
+                {
+                    Email = addUserDto.Email,
+                    FirstName = addUserDto.FirstName,
+                    LastName = addUserDto.LastName,
+                    Role = this._context.Roles.FirstOrDefault(r => r.Name == addUserDto.Role),
+                    RoleId = this._context.Roles.FirstOrDefault(r => r.Name == addUserDto.Role).Id
+                };
+
+                this._context.Users.Add(user);
+            }
+            catch(Exception e)
+            {
+                return "Something went wrong";
+            }
+
+            return "";
+        } 
+
 
         public async Task<string> AddRole(string roleName)
         {
@@ -374,6 +417,28 @@ namespace Aromat.Quiz.Api.Services
 
             this._context.Users.Remove(user);
             this._context.SaveChanges();
+        }
+
+        public string GetUsersByCourse(int courseId)
+        {
+            var users = this._context.CoursesStudents
+                .Where(cs => cs.CourseDetailsId == courseId)
+                .Include(cs => cs.Student)
+                .Include(cs=>cs.Student.User)
+                .Select(cs => cs.Student)
+                .Select(s=>new ReadUserDto 
+                { 
+                    FirstName=s.User.FirstName,
+                    LastName=s.User.LastName,
+                    Email=s.User.Email,
+                    Role=s.User.Role.Name,
+                    Id=s.User.Id
+                })
+                .ToList();
+
+            var json = JsonConvert.SerializeObject(users);
+
+            return json;
         }
     }
 }

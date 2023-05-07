@@ -81,6 +81,30 @@ namespace Aromat.Quiz.Api.Controllers
             return Ok(user);
         }
 
+        [HttpGet]
+        [Route("users/course/{courseId}")]
+        public ActionResult GetUsersByCourse([FromRoute] int courseId)
+        {
+            var users = this._service.GetUsersByCourse(courseId);
+            return Ok(users);
+        }
+
+        [HttpPost]
+        [Route("users/add-user")]
+        public ActionResult CreateUser([FromBody]AddUserDto addUserDto)
+        {
+            this._service.CreateUser(addUserDto);
+            return Ok(addUserDto);
+        }
+
+        [HttpPut]
+        [Route("users/update-user")]
+        public ActionResult UpdateResult([FromBody]UpdateUserDto updateUserDto)
+        {
+            this._service.UpdateUser(updateUserDto);
+            return Ok(updateUserDto);
+        }
+
         [HttpPost]
         [Route("roles/add-role/{roleName}")]
         public ActionResult AddRole([FromRoute]string roleName)

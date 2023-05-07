@@ -91,6 +91,8 @@ namespace Aromat.Quiz.Api.Services
             var json = JsonConvert.SerializeObject(coursesDto);
             return json;
         }
+
+
         public string ReadCoursesByUser(int userId)
         {
             var studentId = this._context.Students.FirstOrDefault(s => s.UserId == userId).Id;
@@ -155,6 +157,10 @@ namespace Aromat.Quiz.Api.Services
             var set = new ReadSetContentDto();
             var questions = new List<ReadQuestionDto>();
 
+            var c = this._context.QuestionSetMapping.Where(qsm => qsm.QuestionSetId == setId)
+                    .Include(qsm => qsm.Question)
+                    .Include(qsm => qsm.Question.QuestionsDetails);
+
             questions = this._context
                     .QuestionSetMapping
                     .Where(qsm => qsm.QuestionSetId == setId)
@@ -162,13 +168,13 @@ namespace Aromat.Quiz.Api.Services
                     .Include(qsm => qsm.Question.QuestionsDetails)
                     .Include(qsm => qsm.Question.QuestionsDetails.Category)
                     .Select(qsm => new ReadQuestionDto
-                    {
-                        Subject = qsm.Question.QuestionsDetails.Category.Subject.Name,
-                        Degree = qsm.Question.QuestionsDetails.Category.Degree.Description,
-                        Level = qsm.Question.QuestionsDetails.Category.Level.Description,
-                        Content = qsm.Question.QuestionsDetails.Question.Content,
-                        Id = qsm.Question.QuestionsDetails.QuestionId
-                    })
+                        {
+                            Subject = qsm.Question.QuestionsDetails.Category.Subject.Name,
+                            Degree = qsm.Question.QuestionsDetails.Category.Degree.Description,
+                            Level = qsm.Question.QuestionsDetails.Category.Level.Description,
+                            Content = qsm.Question.QuestionsDetails.Question.Content,
+                            Id = qsm.Question.QuestionsDetails.QuestionId
+                        })
                     .ToList();
 
             set = new ReadSetContentDto()
@@ -180,6 +186,11 @@ namespace Aromat.Quiz.Api.Services
 
             var json = JsonConvert.SerializeObject(set);
             return json;
+        }
+
+        public string GetSetName(int setId)
+        {
+            return this._context.QuestionSets.FirstOrDefault(s => s.Id == setId).Name;
         }
 
         public void AddSetsToCourse(AddSetsToCourseDto sets)
@@ -200,10 +211,12 @@ namespace Aromat.Quiz.Api.Services
         }
         public void AddCourseStudent(CourseStudentDto courseStudent)
         {
+            var studentId = this._context.Students.FirstOrDefault(s => s.UserId == courseStudent.UserId).Id;
+
             CoursesStudents cs = new CoursesStudents
             {
                 CourseDetailsId = courseStudent.CourseId,
-                StudentsId = courseStudent.StudentId
+                StudentsId = studentId
             };
 
             this._context.CoursesStudents.Add(cs);
@@ -222,6 +235,23 @@ namespace Aromat.Quiz.Api.Services
                         {
                             CourseDetailsId = x.CourseId,
                             StudentsId = studentId
+                        })
+                    .ToList();
+
+            this._context.CoursesStudents.AddRange(coursesStudents);
+            this._context.SaveChanges();
+        }
+
+        public void AddUsersStudent(AddUsersToCourseDto addUsersToCourseDto)
+        {
+            List<CoursesStudents> coursesStudents = new List<CoursesStudents>();
+            var courseId = addUsersToCourseDto.CourseId;
+            coursesStudents = addUsersToCourseDto.UsersDto
+                    .Select(x =>
+                        new CoursesStudents
+                        {
+                            CourseDetailsId = courseId,
+                            StudentsId = this._context.Students.Where(s=>s.UserId==x.UserId).Select(s=>s.Id).FirstOrDefault()
                         })
                     .ToList();
 

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Aromat.Quiz.Api.Model.Dto
 {
-    public class CourseStudentDto
+    public class UserDto
     {
-        public int CourseId { get; set; }
         public int UserId { get; set; }
     }
 }

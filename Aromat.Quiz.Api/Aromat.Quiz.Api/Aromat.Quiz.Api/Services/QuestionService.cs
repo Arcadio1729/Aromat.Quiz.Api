@@ -97,17 +97,17 @@ namespace Aromat.Quiz.Api.Services
             List<ReadQuestionDto> questions = this._context
                 .QuestionSetMapping
                 .Where(q => q.QuestionSetId == setId)
-                .Include(qd=>qd.Question.QuestionsDetails)
-                .Include(c=>c.Question.QuestionsDetails.Category)
-                .Select(q=>new ReadQuestionDto
-                {
-                    Content=q.Question.Content,
-                    Degree=q.Question.QuestionsDetails.Category.Degree.Description,
-                    Level=q.Question.QuestionsDetails.Category.Level.Description,
-                    Image=q.Question.FileData.Data,
-                    Subject=q.Question.QuestionsDetails.Category.Subject.Name,
-                    Id=q.QuestionId
-                })
+                .Include(qd => qd.Question.QuestionsDetails)
+                .Include(c => c.Question.QuestionsDetails.Category)
+                .Select(q => new ReadQuestionDto
+                    {
+                        Content = q.Question.Content,
+                        Degree = q.Question.QuestionsDetails.Category.Degree.Description,
+                        Level = q.Question.QuestionsDetails.Category.Level.Description,
+                        Image = q.Question.FileData.Data,
+                        Subject = q.Question.QuestionsDetails.Category.Subject.Name,
+                        Id = q.QuestionId
+                    })
                 .ToList();
 
             var json = JsonConvert.SerializeObject(questions);

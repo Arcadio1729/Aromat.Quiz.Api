@@ -14,10 +14,12 @@ namespace Aromat.Quiz.Api.Services
         void RemoveCourse(int id);
         void RemoveSet(int setId);
         void CreateSet(CreateSetDto set);
+        void AddUsersStudent(AddUsersToCourseDto addUsersToCourseDto);
         void AddSetsToCourse(AddSetsToCourseDto sets);
         void AddQuestionsToSet(int setId, List<QuestionDto> questions);
         void AddCourseStudent(CourseStudentDto courseStudent);
         void AddCoursesStudent(AddCoursesToUserDto addCoursesToUserDto);
+        string GetSetName(int setId);
         void RemoveQuestionFromSets(RemoveQuestionsFromSetDto removeQuestionsFromSetDto);
         void RemoveCourseFromUsers(RemoveCoursesFromUserDto removeCoursesFromUserDto);
         void RemoveSetsFromCourse(RemoveSetsFromCourse removeSetsFromCourseDto);

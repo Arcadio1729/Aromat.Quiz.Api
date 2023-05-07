@@ -11,6 +11,7 @@ namespace Aromat.Quiz.Api.Controllers
 {
     [ApiController]
     [Route("api/questions")]
+    [Authorize(Roles = "Student")]
     public class QuestionsController : Controller
     {
         private readonly IQuestionService _service;
@@ -21,7 +22,6 @@ namespace Aromat.Quiz.Api.Controllers
         }
 
         [Route("add-question")]
-        [AllowAnonymous]
         public ActionResult CreateQuestion([FromBody] CreateQuestionDto questionDto)
         {
             if (!ModelState.IsValid)
@@ -35,7 +35,6 @@ namespace Aromat.Quiz.Api.Controllers
 
         [HttpGet]
         [Route("all")]
-        [Authorize(Roles = "Student")]
         public ActionResult GetAll(
             [FromQuery]string levelId,
             [FromQuery]string degreeId,
@@ -52,7 +51,6 @@ namespace Aromat.Quiz.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Student")]
         [Route("{questionId}")]
         public ActionResult GetById([FromRoute]int questionId)
         {
@@ -67,9 +65,7 @@ namespace Aromat.Quiz.Api.Controllers
 
         [HttpGet]
         [Route("set/{setId}")]
-        [AllowAnonymous]
-        public ActionResult GetBySet(
-            [FromRoute]string setId)
+        public ActionResult GetBySet([FromRoute]string setId)
         {
             if (!ModelState.IsValid)
             {
@@ -82,7 +78,6 @@ namespace Aromat.Quiz.Api.Controllers
 
         [HttpPut]
         [Route("edit")]
-        [Authorize(Roles = "Admin")]
         public ActionResult UpdateQuestion([FromBody]UpdateQuestionDto updateQuestionDto)
         {
             if (!ModelState.IsValid)
@@ -96,7 +91,6 @@ namespace Aromat.Quiz.Api.Controllers
 
         [HttpDelete]
         [Route("remove")]
-        [AllowAnonymous]
         public ActionResult RemoveQuestion([FromQuery]int id)
         {
             if (!ModelState.IsValid)

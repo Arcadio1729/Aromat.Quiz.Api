@@ -1,12 +1,15 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Aromat.Quiz.Api",
+    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
+    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
     "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Controllers",
     "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Services",
     "\\Aromat.Upload.Api",
     "\\Aromat.Upload.Api\\Aromat.Upload.Api",
     "\\Aromat.Upload.Api\\Aromat.Upload.Api\\Controllers"
   ],
-  "SelectedNode": "\\Aromat.Upload.Api\\Aromat.Upload.Api\\Controllers\\FileController.cs",
+  "SelectedNode": "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Controllers\\CourseController.cs",
   "PreviewInSolutionExplorer": false
 }
