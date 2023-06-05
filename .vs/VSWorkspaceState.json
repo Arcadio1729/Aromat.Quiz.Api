@@ -5,11 +5,8 @@
     "\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
     "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
     "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Controllers",
-    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Services",
-    "\\Aromat.Upload.Api",
-    "\\Aromat.Upload.Api\\Aromat.Upload.Api",
-    "\\Aromat.Upload.Api\\Aromat.Upload.Api\\Controllers"
+    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Services"
   ],
-  "SelectedNode": "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Controllers\\CourseController.cs",
+  "SelectedNode": "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Services\\CourseService.cs",
   "PreviewInSolutionExplorer": false
 }

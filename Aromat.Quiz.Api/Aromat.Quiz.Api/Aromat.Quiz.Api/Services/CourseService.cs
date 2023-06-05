@@ -93,27 +93,7 @@ namespace Aromat.Quiz.Api.Services
         }
 
 
-        public string ReadCoursesByUser(int userId)
-        {
-            var studentId = this._context.Students.FirstOrDefault(s => s.UserId == userId).Id;
 
-            List<CourseDetails> coursesStudent = this._context
-                                    .CoursesStudents
-                                    .Where(cs => cs.StudentsId == studentId)
-                                    .Select(cs => cs.CourseDetails)
-                                    .ToList();
-
-            List<DisplayItemDto> coursesDto = coursesStudent
-                                            .Select(cs => new DisplayItemDto
-                                            {
-                                                Id = cs.Id,
-                                                Content = cs.Name
-                                            })
-                                            .ToList();
-
-            var json = JsonConvert.SerializeObject(coursesDto);
-            return json;
-        }
         public string ReadCourses(ClaimsPrincipal user)
         {
             var json = user.Claims.FirstOrDefault(x => x.Type == "Courses").Value;
@@ -168,13 +148,13 @@ namespace Aromat.Quiz.Api.Services
                     .Include(qsm => qsm.Question.QuestionsDetails)
                     .Include(qsm => qsm.Question.QuestionsDetails.Category)
                     .Select(qsm => new ReadQuestionDto
-                        {
-                            Subject = qsm.Question.QuestionsDetails.Category.Subject.Name,
-                            Degree = qsm.Question.QuestionsDetails.Category.Degree.Description,
-                            Level = qsm.Question.QuestionsDetails.Category.Level.Description,
-                            Content = qsm.Question.QuestionsDetails.Question.Content,
-                            Id = qsm.Question.QuestionsDetails.QuestionId
-                        })
+                    {
+                        Subject = qsm.Question.QuestionsDetails.Category.Subject.Name,
+                        Degree = qsm.Question.QuestionsDetails.Category.Degree.Description,
+                        Level = qsm.Question.QuestionsDetails.Category.Level.Description,
+                        Content = qsm.Question.QuestionsDetails.Question.Content,
+                        Id = qsm.Question.QuestionsDetails.QuestionId
+                    })
                     .ToList();
 
             set = new ReadSetContentDto()
@@ -251,7 +231,7 @@ namespace Aromat.Quiz.Api.Services
                         new CoursesStudents
                         {
                             CourseDetailsId = courseId,
-                            StudentsId = this._context.Students.Where(s=>s.UserId==x.UserId).Select(s=>s.Id).FirstOrDefault()
+                            StudentsId = this._context.Students.Where(s => s.UserId == x.UserId).Select(s => s.Id).FirstOrDefault()
                         })
                     .ToList();
 
@@ -353,5 +333,135 @@ namespace Aromat.Quiz.Api.Services
             this._context.CoursesQuestionsSets.RemoveRange(ssToBeRemoved);
             this._context.SaveChanges();
         }
+
+        #region user service
+        public string ReadCoursesByUser(ClaimsPrincipal user)
+        {
+            var userId = int.Parse(user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var role = ((ClaimsIdentity)user.Identity).Claims
+                            .Where(c => c.Type == ClaimTypes.Role)
+                            .Select(c => c.Value)
+                            .FirstOrDefault();
+
+            if (role == "Admin")
+            {
+                return this.ReadCourses();
+            }
+
+            return this.ReadCoursesByUser(userId);
+        }
+        public string ReadCoursesByUser(int userId)
+        {
+            var studentId = this._context.Students.FirstOrDefault(s => s.UserId == userId).Id;
+
+            List<CourseDetails> coursesStudent = this._context
+                        .CoursesStudents
+                        .Where(cs => cs.StudentsId == studentId)
+                        .Select(cs => cs.CourseDetails)
+                        .ToList();
+
+            List<ReadCourseDto> coursesDto = coursesStudent
+                                            .Select(cs => new ReadCourseDto
+                                                {
+                                                    Id = cs.Id,
+                                                    Name = cs.Name
+                                                })
+                                            .ToList();
+
+            var json = JsonConvert.SerializeObject(coursesDto);
+            return json;
+        }
+        public string ReadSetsByUser(ClaimsPrincipal user,int courseId)
+        {
+            var userId = int.Parse(user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            int cid = courseId;
+            var role = ((ClaimsIdentity)user.Identity).Claims
+                .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value)
+                .FirstOrDefault();
+
+            CoursesStudents course = new CoursesStudents();
+            CoursesQuestionsSet fullCourse;
+            if (role == "Admin")
+            {
+                fullCourse = this._context.CoursesQuestionsSets
+                    .Where(cqs => cqs.CourseDetailsId == courseId)
+                    .FirstOrDefault();
+
+                if (course != null)
+                {
+                    var sets = this.ReadSets(fullCourse.CourseDetailsId);
+                    return sets;
+                }
+                else
+                {
+                    throw new NotFoundException($"Course with id {courseId} not found DB.");
+                }
+            }
+            else
+            {
+                var studentId = this._context.Students.FirstOrDefault(u => u.UserId == userId).Id;
+                course = this._context.CoursesStudents
+                    .Where(cs => cs.CourseDetailsId == courseId && cs.StudentsId == studentId)
+                    .FirstOrDefault();
+            }
+
+
+            if (course != null)
+            {
+                var sets = this.ReadSets(course.CourseDetailsId);
+                return sets;
+            }
+            else
+            {
+                throw new NotFoundException($"Course with id {courseId} not found for user {userId}.");
+            }
+
+        }
+        public string ReadQuestionsByUser(int courseId, int setId, int userId)
+        {
+            var studentId = this._context.Students.FirstOrDefault(u => u.UserId == userId).Id;
+            var course = this._context.CoursesStudents
+                .Where(cs => cs.CourseDetailsId == courseId && cs.StudentsId == studentId)
+                .FirstOrDefault();
+
+            if (course != null)
+            {
+                var set = this._context.CoursesQuestionsSets
+                    .Where(cqs => cqs.QuestionSetId == setId && cqs.CourseDetailsId == courseId)
+                    .FirstOrDefault();
+
+                if(set != null)
+                {
+                    var questions = this._context.QuestionSetMapping
+                                        .Where(q => q.QuestionSetId == setId)
+                                        .Include(qd => qd.Question.QuestionsDetails)
+                                        .Include(c => c.Question.QuestionsDetails.Category)
+                                        .Select(q => new ReadQuestionDto
+                                        {
+                                            Content = q.Question.Content,
+                                            Degree = q.Question.QuestionsDetails.Category.Degree.Description,
+                                            Level = q.Question.QuestionsDetails.Category.Level.Description,
+                                            Image = q.Question.FileData.Data,
+                                            Subject = q.Question.QuestionsDetails.Category.Subject.Name,
+                                            Id = q.QuestionId
+                                        })
+                                        .ToList();
+
+                    var json = JsonConvert.SerializeObject(questions);
+                    return json;
+                }
+                else
+                {
+                    throw new NotFoundException($"Set with id {setId} not found for user {userId}.");
+                }
+            }
+            else
+            {
+                throw new NotFoundException($"Course with id {courseId} not found for user {userId}.");
+            }
+        }
+        
+        #endregion
     }
 }

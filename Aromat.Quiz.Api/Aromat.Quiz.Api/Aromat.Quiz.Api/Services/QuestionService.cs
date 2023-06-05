@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Aromat.Quiz.Api.Services
@@ -86,7 +87,45 @@ namespace Aromat.Quiz.Api.Services
                .Where(q=>
                     (searchPhrase == null) || (q.Content.ToLower().Trim().Contains(searchPhrase.ToLower().Trim()))
                     )
-                .ToList();
+               .ToList();
+
+            var json = JsonConvert.SerializeObject(questions);
+            return json;
+        }
+
+
+        public string GetQuestionsByCourseSet(
+            ClaimsPrincipal user,
+            int courseId,
+            int setId)
+        {
+            var userId = int.Parse(user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var studentId = this._context.Students.FirstOrDefault(s => s.UserId == userId).Id;
+
+            var courseSet = this._context.CoursesQuestionsSets
+                .Where(cs => cs.QuestionSetId == setId && cs.CourseDetailsId == courseId)
+                .FirstOrDefault();
+
+            var student = this._context.CoursesStudents
+                .Where(cs => cs.StudentsId == studentId)
+                .FirstOrDefault();
+
+            if (courseSet == null)
+                throw new Exception("Incorrect set course.");
+
+            if (student == null)
+                throw new Exception("Unauthorized access.");
+
+            var questions = this._context.QuestionSetMapping
+                .Include(qsm => qsm.Question)
+                .Where(qs => qs.QuestionSetId == setId)
+                .Select(q =>
+                    new ReadQuestionDto
+                    {
+                        Id = q.Question.Id,
+                        Content = q.Question.Content,
+                        Image = q.Question.FileData.Data
+                    });
 
             var json = JsonConvert.SerializeObject(questions);
             return json;
@@ -162,7 +201,6 @@ namespace Aromat.Quiz.Api.Services
 
         public void UpdateQuestion(UpdateQuestionDto questionDto)
         {
-
             QuestionDetails questionDetails = this._context
                             .QuestionsDetails
                             .Include(qd => qd.Category)

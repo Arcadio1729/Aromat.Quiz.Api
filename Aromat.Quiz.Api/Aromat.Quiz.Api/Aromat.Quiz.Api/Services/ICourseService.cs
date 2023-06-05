@@ -24,11 +24,17 @@ namespace Aromat.Quiz.Api.Services
         void RemoveCourseFromUsers(RemoveCoursesFromUserDto removeCoursesFromUserDto);
         void RemoveSetsFromCourse(RemoveSetsFromCourse removeSetsFromCourseDto);
         string ReadCourses();
-        string ReadCoursesByUser(int userId);
         
         string ReadCourses(ClaimsPrincipal user);
 
         string ReadSetContent(int setId);
         string ReadSets(int setId);
+
+        #region user service
+        string ReadCoursesByUser(ClaimsPrincipal user);
+        string ReadCoursesByUser(int userId);
+        string ReadSetsByUser(ClaimsPrincipal user, int userId);
+        string ReadQuestionsByUser(int courseId, int setId, int userId);
+        #endregion
     }
 }
