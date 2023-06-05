@@ -95,6 +95,7 @@ namespace Aromat.Quiz.Api
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 
             services.AddScoped<ErrorHandlingMiddleware>();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,6 +113,13 @@ namespace Aromat.Quiz.Api
             app.UseAuthentication();
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Aromat Quiz Api");
+            });
+
             app.UseRouting();
             app.UseCors("CorsPolicy");
             app.UseAuthorization();

@@ -21,6 +21,7 @@ namespace Aromat.Quiz.Api.Controllers
             this._service = service;
         }
 
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("add-question")]
         public ActionResult CreateQuestion([FromBody] CreateQuestionDto questionDto)
