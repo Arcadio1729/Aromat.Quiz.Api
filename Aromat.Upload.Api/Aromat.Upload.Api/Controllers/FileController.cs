@@ -44,7 +44,7 @@ namespace Aromat.Upload.Api.Controllers
 
         [HttpPost]
         [Route("upload-file-body")]
-        public ActionResult UploadFiles([FromBody]   fileDto)
+        public ActionResult UploadFiles([FromBody]UploadFileDto fileDto)
         {
             if (!ModelState.IsValid)
             {

@@ -42,7 +42,8 @@ namespace Aromat.Upload.Api
                     });
             });
 
-            services.AddDbContext<UploadDbContext>();
+            services.AddDbContext<UploadDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UploadDbConnection")));
+
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ErrorHandlingMiddleware>();
