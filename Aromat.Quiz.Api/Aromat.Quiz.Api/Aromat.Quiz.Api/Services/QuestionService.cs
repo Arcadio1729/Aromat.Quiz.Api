@@ -204,7 +204,7 @@ namespace Aromat.Quiz.Api.Services
             QuestionDetails questionDetails = this._context
                             .QuestionsDetails
                             .Include(qd => qd.Category)
-                            .Include(qd => qd.Question)
+                            .Include(qd => qd.Question) 
                             .Where(q => q.QuestionId == questionDto.Id)
                             .FirstOrDefault();
 
@@ -237,6 +237,25 @@ namespace Aromat.Quiz.Api.Services
             this._context.Questions.Update(question);
             this._context.SaveChangesAsync();
 
+        }
+
+        public void UpdateQuestion2(UpdateQuestionDto questionDto)
+        {
+            QuestionDetails questionDetails = this._context
+                .QuestionsDetails
+                .Include(qd => qd.Category)
+                .Include(qd => qd.Question)
+                .Where(q => q.QuestionId == questionDto.Id)
+                .FirstOrDefault();
+
+            var destCategory = this._context.Categories
+                                .Where(c=>c.LevelId==questionDto.LevelId && c.SubSubjectId==questionDto.SubjectId && c.DegreeId==questionDto.DegreeId)
+                                .FirstOrDefault() ;
+
+            questionDetails.Category = destCategory;
+
+            this._context.QuestionsDetails.Update(questionDetails);
+            this._context.SaveChangesAsync();
         }
     }
 }

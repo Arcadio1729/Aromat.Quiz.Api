@@ -12,19 +12,22 @@ namespace Aromat.Quiz.Api.Model
     public class QuizDbContext : DbContext
     {
         //private readonly string _connectionString = "Server=Localhost;User=LAPTOP-FAABQ3F4\\arcad;Database=AromatDb;Trusted_Connection=True;";
-        private readonly string _connectionString = "Server=ADU;User=arcadio;Database=Aromat;Password=pass1;Trusted_Connection=True;";
+        //private readonly string _connectionString = "Server=ADU;User=arcadio;Database=Aromat;Password=pass1;Trusted_Connection=True;";
         //private readonly string _connectionString = @"Server=tcp:aromat-db-server.database.windows.net,1433;Initial Catalog=AromatDb;Persist Security Info=False;User ID=aromat-admin;Password=Jaromir#68;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+        //private readonly string _connectionString = @"Server=tcp:aromat-db-server.database.windows.net,1433;User=aromat-admin;Database=aromat-db;Password=1yT2i7a*55iZ;Trusted_Connection=False;Encrypt=True";
 
         public DbSet<Level> Levels { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Degree> Degrees { get; set; }
         public DbSet<Category> Categories { get; set; }
+
         public DbSet<SubSubject> SubSubjects { get; set; }
 
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionDetails> QuestionsDetails { get; set; }
         public DbSet<Answer> Answers { get; set; }
-
+        public DbSet<TeacherStudent> TeacherStudents { get; set; }
 
         #region Courses
         public DbSet<QuestionSet> QuestionSets { get; set; }
@@ -46,6 +49,11 @@ namespace Aromat.Quiz.Api.Model
         public DbSet<Role> Roles { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         #endregion
+
+        public QuizDbContext(DbContextOptions<QuizDbContext> options) : base(options)
+        {
+
+        }
 
         public virtual DbSet<CategoryDetails> CategoryDetails { get; set; }
 
@@ -70,9 +78,11 @@ namespace Aromat.Quiz.Api.Model
                 .IsRequired();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(this._connectionString);
-        }
+
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(this._connectionString);
+        //}
     }
 }

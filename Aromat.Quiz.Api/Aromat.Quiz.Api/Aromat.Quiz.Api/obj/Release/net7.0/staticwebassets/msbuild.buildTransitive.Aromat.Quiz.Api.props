@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Aromat.Quiz.Api.props" />
+</Project>

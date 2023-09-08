@@ -21,6 +21,7 @@ namespace Aromat.Quiz.Api.Migrations
 	                            join Degrees on Degrees.Id=dbo.Categories.DegreeId
 	                            join dbo.SubSubjects on dbo.SubSubjects.Id = dbo.Categories.SubSubjectId)";
 
+            migrationBuilder.Sql(@"DROP VIEW CategoryDetailsView");
             migrationBuilder.Sql(sql);
         }
 

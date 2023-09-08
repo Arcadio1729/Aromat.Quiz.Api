@@ -343,7 +343,7 @@ namespace Aromat.Quiz.Api.Services
                             .Select(c => c.Value)
                             .FirstOrDefault();
 
-            if (role == "Admin")
+            if (role == "Admin" || role == "Teacher")
             {
                 return this.ReadCourses();
             }
@@ -381,16 +381,28 @@ namespace Aromat.Quiz.Api.Services
                 .FirstOrDefault();
 
             CoursesStudents course = new CoursesStudents();
-            CoursesQuestionsSet fullCourse;
-            if (role == "Admin")
-            {
-                fullCourse = this._context.CoursesQuestionsSets
-                    .Where(cqs => cqs.CourseDetailsId == courseId)
-                    .FirstOrDefault();
+            CourseDetails fullCourse;
 
-                if (course != null)
+            if (role == "Admin" || role=="Teacher")
+            {
+                //fullCourse = this._context.CoursesQuestionsSets
+                //    .Where(cqs => cqs.CourseDetailsId == courseId)
+                //    .FirstOrDefault();
+
+                if(courseId == -1)
                 {
-                    var sets = this.ReadSets(fullCourse.CourseDetailsId);
+                    fullCourse = this._context.CourseDetails.FirstOrDefault();
+                }
+                else
+                {
+                    fullCourse = this._context.CourseDetails
+                                .Where(cd => cd.Id == courseId)
+                                .FirstOrDefault();
+                }
+
+                if (fullCourse != null)
+                {
+                    var sets = this.ReadSets(fullCourse.Id);
                     return sets;
                 }
                 else

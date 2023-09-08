@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="aromatquizapi" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\ja\\moje\\CsArka\\moje\\Aromat\\Aromat\.Quiz\.Api\\Aromat\.Quiz\.Api\\Aromat\.Quiz\.Api\\obj\\Debug\\net5\.0\\PubTmp\\Out\\$" />
+  </parameter>
+</parameters>

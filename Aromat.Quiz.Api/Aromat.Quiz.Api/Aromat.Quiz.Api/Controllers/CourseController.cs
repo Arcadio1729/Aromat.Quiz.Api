@@ -13,7 +13,7 @@ namespace Aromat.Quiz.Api.Controllers
 {
     [ApiController]
     [Route("api/courses")]
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin,Teacher")]
     public class CourseController : Controller
     {
         private readonly ICourseService _service;
@@ -131,8 +131,8 @@ namespace Aromat.Quiz.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("sets/remove-set")]
-        public ActionResult RemoveSet([FromQuery]int setId)
+        [Route("sets/remove-set/{setId}")]
+        public ActionResult RemoveSet([FromRoute]int setId)
         {
             if (!ModelState.IsValid)
             {
@@ -196,6 +196,20 @@ namespace Aromat.Quiz.Api.Controllers
             this._service.AddCoursesStudent(addCoursesToUserDto);
             return Ok();
         }
+
+        [HttpDelete]
+        [Route("remove/{id}")]
+        public ActionResult RemoveCourses([FromRoute]int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            this._service.RemoveCourse(id);
+            return Ok();
+        }
+
         [HttpPost]
         [Route("add-users-course")]
         public ActionResult AddUsersCourse([FromBody]AddUsersToCourseDto addUsersToCourseDto)

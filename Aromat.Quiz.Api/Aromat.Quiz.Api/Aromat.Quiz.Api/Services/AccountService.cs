@@ -15,6 +15,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Data;
 
 namespace Aromat.Quiz.Api.Services
 {
@@ -65,15 +66,14 @@ namespace Aromat.Quiz.Api.Services
 
             return new ReadUser { Email = user.Email, Role = user.RoleId };
         }
-        public JwtSecurityToken GenerateJwt(User user,LoginDto loginDto)
+        public JwtSecurityToken GenerateJwt(User user,LoginDto loginDto,bool changePassword=false)
         {
             UserWithToken userWithToken = null;
 
             if(user is null)
-                throw new BadRequestException("Invalid username or password");  
+                throw new BadRequestException("Invalid username or password");
 
-
-            var results = this._hasher.VerifyHashedPassword(user, user.PasswordHash, loginDto.Password);
+             var results = this._hasher.VerifyHashedPassword(user, user.PasswordHash, loginDto.Password);
 
             if (results == PasswordVerificationResult.Failed)
                 throw new BadRequestException("Invalid username or password");
@@ -95,8 +95,8 @@ namespace Aromat.Quiz.Api.Services
                     .CourseDetails
                     .Select(cd => new
                     {
-                        Id=cd.Id,
-                        Name=cd.Name
+                        Id = cd.Id,
+                        Name = cd.Name
                     })
                     .FirstOrDefault(cd => cd.Id == cs);
 
@@ -113,9 +113,22 @@ namespace Aromat.Quiz.Api.Services
                 new Claim("Courses",json)
             };
 
+            if (changePassword)
+            {
+                claims.Add(new Claim("ChangePassword", "change"));
+            }
+
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._settings.JwtKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
             var expires = DateTime.Now.AddDays(this._settings.JwtExpireDays);
+
+            if (changePassword)
+            {
+               expires = DateTime.Now.AddMinutes(1);
+            }
+
 
             var token = new JwtSecurityToken(this._settings.JwtIssuer,
                 this._settings.JwtIssuer,
@@ -142,7 +155,28 @@ namespace Aromat.Quiz.Api.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-       
+        public void ChangePassword(ClaimsPrincipal user, ChangePasswordDto dto)
+        {
+            if (dto.NewPassword == dto.NewPasswordConfirm)
+            {
+                var userId = int.Parse(user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+                User userDto = this._context.Users.FirstOrDefault(u => u.Id == userId);
+
+                var student = this._context.Students.FirstOrDefault(s=>s.User.Id == userId);
+
+                var hashedPassword = this._hasher.HashPassword(userDto, dto.NewPassword);
+                student.User.PasswordHash = hashedPassword;
+
+                this._context.Students.Update(student);
+                this._context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Password doesn't match.");
+            }
+        }
+
+
         #region old loginuser
         //public ActionResult<ReadUser> LoginUser(LoginDto dto)
         //{
@@ -185,14 +219,14 @@ namespace Aromat.Quiz.Api.Services
         //}
 
         #endregion
-        
-        public ActionResult<ReadUserWithTokenDto> LoginUser(LoginDto dto)
+
+        public ActionResult<ReadUserWithTokenDto> LoginUser(LoginDto dto, bool changePassword=false)
         {
             var user = this._context.Users
                .Include(u => u.Role)
                .FirstOrDefault(u => u.Email == dto.Email);
 
-            var token = this.GenerateJwt(user, dto);
+            var token = this.GenerateJwt(user, dto, changePassword);
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
 
             UserWithToken userWithToken = null;
@@ -348,6 +382,44 @@ namespace Aromat.Quiz.Api.Services
             return json;
         }
 
+        public string GetUserInfo(ClaimsPrincipal user)
+        {
+            var userId = int.Parse(user.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+            ReadUserDto userDto = this._context.Users
+                .Where(u => u.Id == userId)
+                .Select(u => new ReadUserDto
+                    {
+                        Email = u.Email,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Id = userId,
+                        Role = u.Role.Name
+                    })
+                .FirstOrDefault();
+
+            var json = JsonConvert.SerializeObject(userDto);
+            return json;
+        }
+        public string GetUsersByRole(int roleId)
+        {
+            var users = this._context.Users
+                .Where(u => u.RoleId == roleId)
+                .Select(
+                        u => new ReadUserDto
+                        {
+                            Email = u.Email,
+                            FirstName = u.FirstName,
+                            LastName = u.LastName,
+                            Id = u.Id,
+                            Role = u.Role.Name
+                        })
+                .ToList();
+
+            var json = JsonConvert.SerializeObject(users);
+
+            return json;
+        }
         public async Task<string> UpdateUser(UpdateUserDto updateUserDto)
         {
             try

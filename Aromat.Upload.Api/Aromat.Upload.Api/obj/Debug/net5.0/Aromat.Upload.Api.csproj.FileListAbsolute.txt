@@ -208,7 +208,6 @@ C:\ja\moje\CsArka\moje\Aromat\Aromat.Upload.Api\Aromat.Upload.Api\bin\Debug\net5
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Upload.Api\Aromat.Upload.Api\bin\Debug\net5.0\Microsoft.Extensions.PlatformAbstractions.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Upload.Api\Aromat.Upload.Api\bin\Debug\net5.0\System.Diagnostics.PerformanceCounter.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Upload.Api\Aromat.Upload.Api\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.0\System.Diagnostics.PerformanceCounter.dll
-C:\ja\moje\CsArka\moje\Aromat\Aromat.Upload.Api\Aromat.Upload.Api\bin\Debug\net5.0\Aromat.Upload.Api.StaticWebAssets.xml
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Upload.Api\Aromat.Upload.Api\obj\Debug\net5.0\staticwebassets\Aromat.Upload.Api.StaticWebAssets.Pack.cache
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Upload.Api\Aromat.Upload.Api\obj\Debug\net5.0\staticwebassets\msbuild.Aromat.Upload.Api.Microsoft.AspNetCore.StaticWebAssets.props
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Upload.Api\Aromat.Upload.Api\obj\Debug\net5.0\staticwebassets\msbuild.build.Aromat.Upload.Api.props

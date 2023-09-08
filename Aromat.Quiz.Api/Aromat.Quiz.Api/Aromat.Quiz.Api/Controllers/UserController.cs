@@ -11,7 +11,7 @@ namespace Aromat.Quiz.Api.Controllers
 {
     [ApiController]
     [Route("api/ui")]
-    [Authorize(Roles = "Admin,Student")]
+    [Authorize(Roles = "Admin,Teacher,Student")]
     public class UserController : Controller
     {
         private readonly ICourseService _courseService;
@@ -30,12 +30,21 @@ namespace Aromat.Quiz.Api.Controllers
         }
 
         [HttpGet]
+        [Route("sets")]
+        public ActionResult GetSets()
+        {
+            var result = this._courseService.ReadSets(-1);
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("courses/{courseId}")]
         public ActionResult ReadSets([FromRoute]int courseId)
         {
             var result = this._courseService.ReadSetsByUser(User,courseId);
             return Ok(result);
         }
+
 
         [HttpGet]
         [Route("courses/{courseId}/{setId}")]

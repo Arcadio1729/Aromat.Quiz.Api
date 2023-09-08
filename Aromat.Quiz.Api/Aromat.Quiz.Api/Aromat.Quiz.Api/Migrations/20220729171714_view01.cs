@@ -22,12 +22,12 @@ namespace Aromat.Quiz.Api.Migrations
 	                            join dbo.SubSubjects on dbo.SubSubjects.Id = dbo.Categories.SubSubjectId
                             )";
 
+            migrationBuilder.Sql(@"DROP VIEW CategoryDetailsView");
             migrationBuilder.Sql(sql);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"DROP VIEW CategoryDetailsView");
         }
     }
 }

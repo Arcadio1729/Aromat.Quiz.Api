@@ -2,6 +2,7 @@
 using Aromat.Quiz.Api.Model.Authentication;
 using Aromat.Quiz.Api.Model.Dto;
 using Aromat.Quiz.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -39,8 +40,33 @@ namespace Aromat.Quiz.Api.Controllers
         [Route("login")]
         public ActionResult LoginUser([FromBody]LoginDto loginDto)
         {
-            var userWithToken = this._service.LoginUser(loginDto);
+            var userWithToken = this._service.LoginUser(loginDto,false);
             return Ok(userWithToken);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        [Route("confirm-identity")]
+        public ActionResult ConfirmIdentity([FromBody] LoginDto loginDto)
+        {
+            var userWithToken = this._service.LoginUser(loginDto,true);
+            return Ok(userWithToken);
+        }
+
+        [HttpPost]
+        [Route("change-password")]
+        [Authorize(Policy = "ChangePassword")]
+        public ActionResult ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            this._service.ChangePassword(User, changePasswordDto);
+
+            return Ok();
         }
 
         [HttpPost]
@@ -82,6 +108,14 @@ namespace Aromat.Quiz.Api.Controllers
         }
 
         [HttpGet]
+        [Route("users/roles/{roleId}")]
+        public ActionResult GetUsersByRole([FromRoute] int roleId)
+        {
+            var user = this._service.GetUsersByRole(roleId);
+            return Ok(user);
+        }
+
+        [HttpGet]
         [Route("users/course/{courseId}")]
         public ActionResult GetUsersByCourse([FromRoute] int courseId)
         {
@@ -119,6 +153,14 @@ namespace Aromat.Quiz.Api.Controllers
         {
             this._service.RemoveUser(userId);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("user/info")]
+        public ActionResult GetInfo()
+        {
+            var result = this._service.GetUserInfo(User);
+            return Ok(result);
         }
     }
 }

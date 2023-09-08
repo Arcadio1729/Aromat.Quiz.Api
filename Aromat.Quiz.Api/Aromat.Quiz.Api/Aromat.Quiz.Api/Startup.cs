@@ -22,6 +22,7 @@ using Aromat.Quiz.Api.Model.Validators;
 using FluentValidation.AspNetCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Aromat.Quiz.Api
 {
@@ -68,12 +69,17 @@ namespace Aromat.Quiz.Api
                 };
             });
 
-
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ChangePassword", builder => builder.RequireClaim("ChangePassword","change"));
+            });
             services.AddControllers().AddFluentValidation();
 
             services.AddControllers();
             services.AddAutoMapper(this.GetType().Assembly);
-            services.AddDbContext<QuizDbContext>();
+            services.AddDbContext<QuizDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("QuizDbConnection"))
+                    );
 
             services.AddScoped<QuizSeeder>();
 
@@ -88,6 +94,7 @@ namespace Aromat.Quiz.Api
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IManagementService, ManagementService>();
             #endregion
 
 

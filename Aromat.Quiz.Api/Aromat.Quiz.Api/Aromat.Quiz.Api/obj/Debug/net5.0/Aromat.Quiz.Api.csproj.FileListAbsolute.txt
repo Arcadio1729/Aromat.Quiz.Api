@@ -72,7 +72,6 @@ C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bi
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Aromat.Quiz.Api.runtimeconfig.json
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Aromat.Quiz.Api.runtimeconfig.dev.json
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Aromat.Quiz.Api.dll
-C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\ref\Aromat.Quiz.Api.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Aromat.Quiz.Api.pdb
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\AutoMapper.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
@@ -122,7 +121,6 @@ C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\ob
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\Aromat.Quiz.Api.MvcApplicationPartsAssemblyInfo.cs
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\Aromat.Quiz.Api.MvcApplicationPartsAssemblyInfo.cache
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\staticwebassets\Aromat.Quiz.Api.StaticWebAssets.Manifest.cache
-C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\staticwebassets\Aromat.Quiz.Api.StaticWebAssets.xml
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\scopedcss\bundle\Aromat.Quiz.Api.styles.css
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\Aromat.Quiz.Api.RazorTargetAssemblyInfo.cache
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\Aromat.Quiz.Api.csproj.CopyComplete
@@ -142,3 +140,10 @@ C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bi
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\Aromat.Quiz.Api.csproj.AssemblyReference.cache
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\bin\Debug\net5.0\Aromat.Quiz.Api.StaticWebAssets.xml
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\staticwebassets\Aromat.Quiz.Api.StaticWebAssets.Pack.cache
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\staticwebassets\msbuild.Aromat.Quiz.Api.Microsoft.AspNetCore.StaticWebAssets.props
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\staticwebassets\msbuild.build.Aromat.Quiz.Api.props
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\staticwebassets\msbuild.buildMultiTargeting.Aromat.Quiz.Api.props
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\staticwebassets\msbuild.buildTransitive.Aromat.Quiz.Api.props
+C:\ja\moje\CsArka\moje\Aromat\Aromat.Quiz.Api\Aromat.Quiz.Api\Aromat.Quiz.Api\obj\Debug\net5.0\refint\Aromat.Quiz.Api.dll
