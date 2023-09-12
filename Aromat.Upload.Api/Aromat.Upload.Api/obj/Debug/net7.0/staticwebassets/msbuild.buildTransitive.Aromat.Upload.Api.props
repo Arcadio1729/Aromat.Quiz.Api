@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Aromat.Upload.Api.props" />
+</Project>

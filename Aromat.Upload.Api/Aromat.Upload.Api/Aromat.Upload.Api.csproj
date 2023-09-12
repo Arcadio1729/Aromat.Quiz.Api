@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <UserSecretsId>5578e465-8d7b-4aa7-bb00-3a1ab3857181</UserSecretsId>
     <ApplicationInsightsResourceId>/subscriptions/a6e5bbe2-0237-4cdc-a106-4f0db679cf42/resourceGroups/rg-aromat-api/providers/microsoft.insights/components/aromat-file-app</ApplicationInsightsResourceId>
   </PropertyGroup>

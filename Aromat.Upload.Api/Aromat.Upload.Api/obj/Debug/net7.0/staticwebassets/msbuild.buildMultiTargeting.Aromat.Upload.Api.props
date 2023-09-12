@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Aromat.Upload.Api.props" />
+</Project>

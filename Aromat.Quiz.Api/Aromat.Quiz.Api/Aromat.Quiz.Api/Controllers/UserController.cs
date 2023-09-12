@@ -56,5 +56,7 @@ namespace Aromat.Quiz.Api.Controllers
             var result = this._courseService.ReadQuestionsByUser(courseId, setId, userId);
             return Ok(result);
         }
+
+
     }
 }

@@ -3,10 +3,8 @@
     "",
     "\\Aromat.Quiz.Api",
     "\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
-    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
-    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Controllers",
-    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Services"
+    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api"
   ],
-  "SelectedNode": "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Controllers\\AccountController.cs",
+  "SelectedNode": "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }

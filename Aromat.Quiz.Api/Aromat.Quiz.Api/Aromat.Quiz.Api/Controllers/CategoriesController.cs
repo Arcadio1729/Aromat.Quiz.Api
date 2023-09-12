@@ -107,5 +107,12 @@ namespace Aromat.Quiz.Api.Controllers
             this._service.AddSubject(subject);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("test")]
+        public ActionResult TestApi()
+        {
+            return Ok("Working!");
+        }
     }
 }
