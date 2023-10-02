@@ -19,10 +19,5 @@ namespace Aromat.Upload.Api.Model
         {
 
         }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(this._connectionString);
-        //}
     }
 }
