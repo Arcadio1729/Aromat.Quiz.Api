@@ -402,8 +402,16 @@ namespace Aromat.Quiz.Api.Services
 
                 if (fullCourse != null)
                 {
-                    var sets = this.ReadSets(fullCourse.Id);
-                    return sets;
+                    if (courseId == -1)
+                    {
+                        var sets = this.ReadSets();
+                        return sets;
+                    }
+                    else
+                    {
+                        var sets = this.ReadSets(fullCourse.Id);
+                        return sets;
+                    }
                 }
                 else
                 {

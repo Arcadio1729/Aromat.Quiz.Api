@@ -3,8 +3,10 @@
     "",
     "\\Aromat.Quiz.Api",
     "\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
-    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api"
+    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api",
+    "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Services",
+    "\\Aromat.Upload.Api\\Aromat.Upload.Api"
   ],
-  "SelectedNode": "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\appsettings.json",
+  "SelectedNode": "\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Aromat.Quiz.Api\\Services\\CourseService.cs",
   "PreviewInSolutionExplorer": false
 }
